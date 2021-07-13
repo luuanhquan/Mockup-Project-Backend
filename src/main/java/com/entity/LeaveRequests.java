@@ -1,6 +1,7 @@
 package com.entity;
 
-import com.entity.enumFolder.RequestStatus;
+import com.entity.enums.REQUEST_STATUS;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class LeaveRequests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "DATE_REQUESTED")
     private Date dateRequested;
@@ -31,11 +32,11 @@ public class LeaveRequests {
     @Column(name = "STATUS")
     private long status;
 
-    public RequestStatus getStatus() {
-        return RequestStatus.valueOf((int) status);
+    public REQUEST_STATUS getStatus() {
+        return REQUEST_STATUS.valueOf((int) status);
     }
 
-    public void setStatus(RequestStatus status) {
+    public void setStatus(REQUEST_STATUS status) {
         this.status = status.value;
     }
 
@@ -45,12 +46,15 @@ public class LeaveRequests {
     @Column(name = "DATE_CREATED")
     private Date dateCreated;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USER_REQUESTED", referencedColumnName = "ID", nullable = false)
     private Users userRequested;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USER_APPROVED", referencedColumnName = "ID", nullable = false)
     private Users userApproved;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "TYPE", referencedColumnName = "ID", nullable = false)
     private RequestType requestType;
 

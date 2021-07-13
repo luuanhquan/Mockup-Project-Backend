@@ -1,5 +1,6 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,15 @@ public class FileProject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "CATEGORY")
     private long category;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "FILE_ID", referencedColumnName = "ID", nullable = false)
     private Files file;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "PROJECTID", referencedColumnName = "ID", nullable = false)
     private Projects project;
 }

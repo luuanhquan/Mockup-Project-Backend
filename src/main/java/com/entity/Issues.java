@@ -1,7 +1,7 @@
 package com.entity;
 
-import com.entity.enumFolder.ActiveStatus;
-import com.entity.enumFolder.IssueStatus;
+import com.entity.enums.ISSUE_STATUS;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -19,29 +18,33 @@ public class Issues {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "STATUS")
     private long status;
 
-    public IssueStatus getStatus() {
-        return IssueStatus.valueOf((int) status);
+    public ISSUE_STATUS getStatus() {
+        return ISSUE_STATUS.valueOf((int) status);
     }
 
-    public void setStatus(IssueStatus status) {
+    public void setStatus(ISSUE_STATUS status) {
         this.status = status.value;
     }
     @OneToMany(mappedBy = "issue")
     private Collection<FileIssue> fileIssuesById;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "PROJECTID", referencedColumnName = "ID", nullable = false)
     private Projects project;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USER_CREATED", referencedColumnName = "ID", nullable = false)
     private Users userCreated;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "ASSIGNEE", referencedColumnName = "ID", nullable = false)
     private Users assignee;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "PARENT_ISSUE", referencedColumnName = "ID", nullable = false)
     private Issues parent;
     @OneToMany(mappedBy = "parent")

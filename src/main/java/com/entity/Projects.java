@@ -1,16 +1,14 @@
 package com.entity;
 
-import com.entity.enumFolder.ActiveStatus;
+import com.entity.enums.ACTIVE_STATUS;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -20,7 +18,7 @@ public class Projects {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "DESCRIPTION")
@@ -31,11 +29,11 @@ public class Projects {
     private Date dateEnded;
     @Column(name = "STATUS")
     private int status;
-    public ActiveStatus getStatus() {
-        return ActiveStatus.valueOf((int) status);
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf((int) status);
     }
 
-    public void setStatus(ActiveStatus status) {
+    public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
     @OneToMany(mappedBy = "project")

@@ -1,5 +1,6 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -17,12 +17,13 @@ public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "PATH")
     private String path;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "UPLOADER", referencedColumnName = "ID", nullable = false)
     private Users uploader;
     @OneToMany(mappedBy = "file")

@@ -1,28 +1,36 @@
 package com.entity;
 
-import com.entity.enumFolder.ActiveStatus;
+import com.entity.enums.ACTIVE_STATUS;
+import com.entity.enums.USERROLE;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Users {
+public class Users{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "ROLE")
-    private long role;
+    private int role;
+    public USERROLE getRole() {
+        return USERROLE.valueOf(role);
+    }
+
+    public void setRole(USERROLE role) {
+        this.status = role.value;
+    }
     @Column(name = "username")
     private String username;
     @Column(name = "password")
@@ -51,11 +59,11 @@ public class Users {
     private String major;
     @Column(name = "STATUS")
     private long status;
-    public ActiveStatus getStatus() {
-        return ActiveStatus.valueOf((int) status);
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf((int) status);
     }
 
-    public void setStatus(ActiveStatus status) {
+    public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
     @Column(name = "DAY_OFF_LAST_YEAR")
@@ -87,9 +95,11 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "DIVISIONID", referencedColumnName = "ID", nullable = false)
     private Division division;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "AVATAR", referencedColumnName = "ID")
     private Files avatar;
 

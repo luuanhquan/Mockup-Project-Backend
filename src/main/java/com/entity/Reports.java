@@ -1,14 +1,13 @@
 package com.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -18,7 +17,7 @@ public class Reports {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "ADVANTAGE")
     private String advantage;
     @Column(name = "DISADVANTAGE")
@@ -32,9 +31,11 @@ public class Reports {
     @Column(name = "DATE_READ")
     private Date dateRead;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "PROJECTID", referencedColumnName = "ID", nullable = false)
     private Projects project;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
     private Users users;
 

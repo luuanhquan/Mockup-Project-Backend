@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -18,7 +17,7 @@ public class RequestType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "UNIT")
