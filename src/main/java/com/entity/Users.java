@@ -4,10 +4,10 @@ import com.entity.enums.ACTIVE_STATUS;
 import com.entity.enums.USERROLE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,6 +15,8 @@ import java.util.Date;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Users{
@@ -74,8 +76,6 @@ public class Users{
     private boolean gender;
     @Column(name = "BIRTHDAY")
     private Date birthday;
-    @OneToMany(mappedBy = "users")
-    private Collection<Division> divisionList;
     @OneToMany(mappedBy = "uploader")
     private Collection<Files> fileList;
     @OneToMany(mappedBy = "userCreated")
@@ -94,10 +94,6 @@ public class Users{
     private Collection<Reports> reportsList;
     @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "DIVISIONID", referencedColumnName = "ID", nullable = false)
-    private Division division;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "AVATAR", referencedColumnName = "ID")

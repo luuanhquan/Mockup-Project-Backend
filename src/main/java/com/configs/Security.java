@@ -1,5 +1,6 @@
 package com.configs;
 
+import com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,23 +10,35 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 //
 @Configuration
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
-    String level_1= "hasRole('ADMIN')";
-    String level_2= "hasRole('ADMIN') or hasRole('MANAGER')";
-    String level_3= "hasRole('ADMIN') or hasRole('MANAGER') or hasRole('PM')";
-    String level_4= "hasRole('ADMIN') or hasRole('MANAGER') or hasRole('PM') or hasRole('MEMBER')";
+    static final String level_1 = "hasRole('ADMIN')";
+    static final String level_2 = "hasRole('ADMIN') or hasRole('MANAGER')";
+    static final String level_3 = "hasRole('ADMIN') or hasRole('MANAGER') or hasRole('PM')";
+    static final String level_4 = "hasRole('ADMIN') or hasRole('MANAGER') or hasRole('PM') or hasRole('MEMBER')";
 
     @Autowired
-    UserService userService;
+    UsersService userService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new
+                UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
     }
 
     @Override
@@ -34,34 +47,28 @@ public class Security extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("a").password("{noop}password").roles("USER");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Tất cả các request khác đều cần phải xác thực mới được truy cập
-//         Cho phép từ MEMBER được truy cập request và issue
-        http.authorizeRequests()
-                .antMatchers("/request/**","/issue/**")
-                .access(level_1);
-
-        // Cho phép từ PM được truy cập employee, project, report
-        http.authorizeRequests()
-                .antMatchers("/user/**","/project/**","/report/**")
-                .access(level_3);
-        //Cấu hình ban đầu
-        http.authorizeRequests()
-                .antMatchers("/", "/home", "/forgot-password").permitAll(); // Cho phép tất cả mọi người truy cập vào 2 địa chỉ này
-                ;
-
-        //Cấu hình login
-        http.authorizeRequests().and().formLogin() // Cho phép người dùng xác thực bằng form login
-                .loginProcessingUrl("/j_spring_security_login")//
-                .loginPage("/login")
-                .defaultSuccessUrl("/home")
-                .failureUrl("/login?message=error")//
-                .permitAll() // Tất cả đều được truy cập vào địa chỉ này
+        http.cors();
+        http.csrf().disable()
+//        http.httpBasic().and()
+                .authorizeRequests()
+                .antMatchers( "/", "/home", "/forgot-password")
+                    .permitAll()
+                .antMatchers("/user/**", "/project/**", "/report/**")
+                    .access(level_3)
+                .antMatchers("/request/**", "/issue/**","/auth")
+                    .access(level_1)
+                .anyRequest().fullyAuthenticated()
                 .and()
-                .logout() // Cho phép logout
-                .permitAll();
+                    .logout() // (6)
+                    .permitAll();
+
 
 
         // yêu cầu vai trò ADMIN, sẽ chuyển hướng tới trang /403

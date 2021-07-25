@@ -2,9 +2,7 @@ package com.entity;
 
 import com.entity.enums.ACTIVE_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -12,6 +10,8 @@ import java.util.Collection;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Division {
@@ -33,14 +33,8 @@ public class Division {
     public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "MANAGERID", referencedColumnName = "ID", nullable = false)
-    private Users users;
     @OneToMany(mappedBy = "division")
     private Collection<DivisionProject> divisionProjectsList;
-    @OneToMany(mappedBy = "division")
-    private Collection<Users> usersList;
 
 
 
