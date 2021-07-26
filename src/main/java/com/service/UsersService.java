@@ -1,6 +1,8 @@
 package com.service;
 
 import com.entity.CustomUserDetails;
+import com.entity.Division;
+import com.entity.DivisionUser;
 import com.entity.Users;
 import com.entity.enums.USERROLE;
 import com.repositories.UsersRepository;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +58,19 @@ public class UsersService implements UserDetailsService {
     public Users registerNewUserAccount(Users account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         return repository.save(account);
+    }
+
+    @Autowired
+    DivisionUserService divisionUserService;
+
+    public List<String> getEmail(Users user, Integer newDivisionId){
+        Division oldDivisionId= divisionUserService.findByUserId(user.getId());
+        Users oldBoss= divisionUserService.findBoss(oldDivisionId);
+        Users newBoss= divisionUserService.findBoss(new DivisionService().findById(newDivisionId).orElse(null));
+
+        List<String> listEmail= new ArrayList<>();
+        listEmail.add(oldBoss.getEmail());
+        listEmail.add(newBoss.getEmail());
+        return listEmail;
     }
 }
