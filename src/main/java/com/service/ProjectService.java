@@ -6,30 +6,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProjectService {
 
     @Autowired
-    ProjectRepository repository;
+    ProjectRepository projectRepository;
 
-    public Projects save(Projects s) {
-        return (Projects) repository.findAll();
-    }
 
 
     public List<Projects> findAll() {
-        return repository.findAll();
+        return projectRepository.findAll();
+    }
+
+//    public Projects findbyProjects(Integer id) {
+//        return projectRepository.findById(id)
+//                .orElseThrow(() -> new IllegalStateException("Không có id:" + id + ". Mời bạn nhập lại"));
+//    }
+
+    public Projects findbyProjects(Integer id) {
+        return projectRepository.findById(id)
+                .orElse(null);
+    }
+
+//    public Projects addProject(Projects projects){
+//        projects.setPersonId(UUID.randomUUID().toString());
+//        return  projectRepository.save(projects);
+//    }
+
+    public Projects save(Projects s) {
+        return (Projects) projectRepository.findAll();
+    }
+
+    public void deleteProject(Integer id) {
+        projectRepository.deleteById(id);
     }
 
 
-    public void deleteById(Integer id) {
-        repository.deleteById(id);
-    }
 
-
-    public Optional<Projects> findById(Integer id) {
-        return repository.findById(id);
-    }
 }

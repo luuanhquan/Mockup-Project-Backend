@@ -33,6 +33,7 @@ public class Projects {
         return ACTIVE_STATUS.valueOf((int) status);
     }
 
+
     public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
@@ -46,5 +47,6 @@ public class Projects {
     private Collection<ProjectUser> projectUserList;
     @OneToMany(mappedBy = "project")
     private Collection<Reports> reportList;
+
 
 }
