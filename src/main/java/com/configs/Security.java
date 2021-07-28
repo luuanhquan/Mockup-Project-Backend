@@ -39,9 +39,9 @@ public class Security extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Tất cả các request khác đều cần phải xác thực mới được truy cập
 //         Cho phép từ MEMBER được truy cập request và issue
-        http.httpBasic().disable();
+        http.httpBasic();
         http.cors();
-        http.authorizeRequests().antMatchers("/signup").permitAll().antMatchers("/*")
+        http.authorizeRequests().antMatchers("/**").permitAll().antMatchers("/*")
                 .fullyAuthenticated().and().formLogin()
                 .and().csrf().disable();
         http.csrf().disable();

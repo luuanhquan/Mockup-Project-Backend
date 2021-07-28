@@ -13,6 +13,7 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name ="PROJECTS")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Projects {
     @Id
@@ -29,6 +30,16 @@ public class Projects {
     private Date dateEnded;
     @Column(name = "STATUS")
     private int status;
+
+    public Projects(Integer id, String name, String description, Date dateStated, Date dateEnded, int status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.dateStated = dateStated;
+        this.dateEnded = dateEnded;
+        this.status = status;
+    }
+
     public ACTIVE_STATUS getStatus() {
         return ACTIVE_STATUS.valueOf((int) status);
     }
@@ -37,6 +48,7 @@ public class Projects {
     public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
+
     @OneToMany(mappedBy = "project")
     private Collection<DivisionProject> divisionProjectList;
     @OneToMany(mappedBy = "project")
@@ -47,6 +59,8 @@ public class Projects {
     private Collection<ProjectUser> projectUserList;
     @OneToMany(mappedBy = "project")
     private Collection<Reports> reportList;
+
+
 
 
 }

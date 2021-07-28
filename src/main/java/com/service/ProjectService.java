@@ -14,31 +14,28 @@ public class ProjectService {
     @Autowired
     ProjectRepository projectRepository;
 
-
-
+    //Tìm all project
     public List<Projects> findAll() {
         return projectRepository.findAll();
     }
 
-//    public Projects findbyProjects(Integer id) {
-//        return projectRepository.findById(id)
-//                .orElseThrow(() -> new IllegalStateException("Không có id:" + id + ". Mời bạn nhập lại"));
-//    }
-
+    //Tìm theo id project
     public Projects findbyProjects(Integer id) {
         return projectRepository.findById(id)
                 .orElse(null);
     }
 
-//    public Projects addProject(Projects projects){
-//        projects.setPersonId(UUID.randomUUID().toString());
-//        return  projectRepository.save(projects);
-//    }
-
-    public Projects save(Projects s) {
-        return (Projects) projectRepository.findAll();
+    //Add project
+    public Projects addProject(Projects projects){
+        return  projectRepository.save(projects);
     }
 
+    //Edit Project
+    public Projects updateProject(Projects projects) {
+        return  projectRepository.saveAndFlush(projects);
+    }
+
+    //Delete Project
     public void deleteProject(Integer id) {
         projectRepository.deleteById(id);
     }
