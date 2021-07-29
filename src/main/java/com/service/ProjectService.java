@@ -17,9 +17,10 @@ public class ProjectService {
     ProjectRepository projectRepository;
 
     public List<Projects> findAll() {
-        return projectRepository.findAll();}
-    public Projects save(Projects s) {
+        return projectRepository.findAll();
     }
+//    public Projects save(Projects s) {
+//    }
 
     public Projects findbyProjects(Integer id) {
         return projectRepository.findById(id)
@@ -27,20 +28,19 @@ public class ProjectService {
     }
 
     //Add project
-    public Projects addProject(Projects projects){
-        return  projectRepository.save(projects);
+    public Projects addProject(Projects projects) {
+        return projectRepository.save(projects);
     }
 
     //Edit Project
     public Projects updateProject(Projects projects) {
-        return  projectRepository.saveAndFlush(projects);
+        return projectRepository.saveAndFlush(projects);
     }
 
     //Delete Project
     public void deleteProject(Integer id) {
         projectRepository.deleteById(id);
     }
-
 
 
 }

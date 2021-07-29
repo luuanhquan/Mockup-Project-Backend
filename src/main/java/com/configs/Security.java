@@ -23,6 +23,16 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Autowired
     UsersService userService;
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors();
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll().and().httpBasic();
+
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
@@ -45,24 +55,24 @@ public class Security extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers( "/", "/home", "/forgot-password")
-                    .permitAll()
-
-                .antMatchers("/user/**","/report/**")
-                    .hasAnyRole("ADMIN","MANAGER")
-
-                .antMatchers( "/project/**","/report/**")
-                    .hasAnyRole("ADMIN","MANAGER","PM")
-
-                .anyRequest().fullyAuthenticated()
-                        .and().httpBasic();
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.cors();
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers( "/", "/home", "/forgot-password")
+//                    .permitAll()
+//
+//                .antMatchers("/user/**","/report/**")
+//                    .hasAnyRole("ADMIN","MANAGER")
+//
+//                .antMatchers( "/project/**","/report/**")
+//                    .hasAnyRole("ADMIN","MANAGER","PM")
+//
+//                .anyRequest().fullyAuthenticated()
+//                        .and().httpBasic();
+//    }
 }
 
 

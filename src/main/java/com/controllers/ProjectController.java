@@ -24,9 +24,10 @@ public class ProjectController {
 
     //tìm all Project
     @GetMapping("/list")
-    public ResponseEntity<List<Projects>> getAllProject() {
+    public List<Projects> getAllProject() {
         List<Projects> projects = projectService.findAll();
-        return new ResponseEntity<>(projects, HttpStatus.OK);
+        System.out.println(projects);
+        return projects;
     }
 
     //Tìm Project theo id

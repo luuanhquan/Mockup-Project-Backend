@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "REPORTS")
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -39,5 +40,5 @@ public class Reports {
     @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
     private Users users;
     @Column(name="TYPE")
-    private String type;
+    private int type;
 }
