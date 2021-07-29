@@ -30,6 +30,4 @@ public class Files {
     private Collection<FileIssue> fileList;
     @OneToMany(mappedBy = "file")
     private Collection<FileProject> fileProjectsList;
-    @OneToMany(mappedBy = "avatar")
-    private Collection<Users> userList;
 }

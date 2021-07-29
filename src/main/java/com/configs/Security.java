@@ -19,10 +19,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
-    static final String level_1 = "hasRole('ADMIN')";
-    static final String level_2 = "hasRole('ADMIN') or hasRole('MANAGER')";
-    static final String level_3 = "hasRole('ADMIN') or hasRole('MANAGER') or hasRole('PM')";
-    static final String level_4 = "hasRole('ADMIN') or hasRole('MANAGER') or hasRole('PM') or hasRole('MEMBER')";
 
     @Autowired
     UsersService userService;
@@ -47,32 +43,25 @@ public class Security extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("a").password("{noop}password").roles("USER");
-    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
-        http.csrf().disable()
-//        http.httpBasic().and()
+        http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers( "/", "/home", "/forgot-password")
                     .permitAll()
-                .antMatchers("/user/**", "/project/**", "/report/**")
-                    .access(level_3)
-                .antMatchers("/request/**", "/issue/**","/auth")
-                    .access(level_1)
+
+                .antMatchers("/user/**","/report/**")
+                    .hasAnyRole("ADMIN","MANAGER")
+
+                .antMatchers( "/project/**","/report/**")
+                    .hasAnyRole("ADMIN","MANAGER","PM")
+
                 .anyRequest().fullyAuthenticated()
-                .and()
-                    .logout() // (6)
-                    .permitAll();
-
-
-
-        // yêu cầu vai trò ADMIN, sẽ chuyển hướng tới trang /403
-//        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+                        .and().httpBasic();
     }
 }
 
