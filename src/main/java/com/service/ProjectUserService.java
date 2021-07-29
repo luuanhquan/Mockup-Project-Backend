@@ -4,18 +4,20 @@ import com.entity.ProjectUser;
 import com.repositories.ProjectUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ProjectUserService {
 
     @Autowired
     ProjectUserRepository repository;
 
     public ProjectUser save(ProjectUser s) {
-        return (ProjectUser) repository.findAll();
+        return repository.save(s);
     }
 
 

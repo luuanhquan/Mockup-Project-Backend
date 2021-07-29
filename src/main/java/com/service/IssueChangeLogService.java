@@ -4,18 +4,20 @@ import com.entity.IssueChangeLog;
 import com.repositories.IssueChangeLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class IssueChangeLogService {
 
     @Autowired
     IssueChangeLogRepository repository;
 
     public IssueChangeLog save(IssueChangeLog s) {
-        return (IssueChangeLog) repository.findAll();
+        return repository.save(s);
     }
 
 

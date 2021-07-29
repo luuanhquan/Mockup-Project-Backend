@@ -38,5 +38,6 @@ public class Reports {
     @JsonIgnore
     @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
     private Users users;
-
+    @Column(name="TYPE")
+    private String type;
 }

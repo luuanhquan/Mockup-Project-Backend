@@ -1,27 +1,27 @@
 package com.entity.enums;
 
-public enum USERROLE {
-    ADMIN(0),
-    MANAGER(1),
-    PM(2),
-    MEMBER(3);
+public enum REPORT_TYPE {
+    WEEKLY(0),
+    PROJECT(1);
 
     public final int value;
 
-    USERROLE(int value) {
+    REPORT_TYPE(int value) {
         this.value = value;
     }
 
-    public static USERROLE valueOf(Integer value) {
+    public static REPORT_TYPE valueOf(Integer value) {
         if (value == null) {
             return null;
         }
 
-        for (USERROLE val : USERROLE.values()) {
+        for (REPORT_TYPE val : REPORT_TYPE.values()) {
             if (val.value == value) {
                 return val;
             }
         }
+
         return null;
     }
+
 }

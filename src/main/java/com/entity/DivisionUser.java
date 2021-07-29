@@ -7,27 +7,25 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Files {
+@Table(name = "User_division", schema = "TEAM1", catalog = "")
+public class DivisionUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "NAME")
-    private String name;
-    @Column(name = "PATH")
-    private String path;
+    @Column(name = "IS_MANAGER")
+    private boolean isManager;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "UPLOADER", referencedColumnName = "ID", nullable = false)
-    private Users uploader;
-    @OneToMany(mappedBy = "file")
-    private Collection<FileIssue> fileList;
-    @OneToMany(mappedBy = "file")
-    private Collection<FileProject> fileProjectsList;
+    @JoinColumn(name = "DivisionID", referencedColumnName = "ID", nullable = false)
+    private Division Division;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
+    private Users users;
 }

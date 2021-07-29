@@ -1,6 +1,5 @@
-package com.configs;
+package com.entity;
 
-import com.entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,9 +16,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()));
+        return Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
     }
 
+    public String getRole(){
+        return user.getRole().substring(5);
+    }
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -47,6 +49,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getStatus().value==1;
     }
 }

@@ -1,12 +1,11 @@
 package com.entity;
 
 import com.entity.enums.ACTIVE_STATUS;
-import com.entity.enums.USERROLE;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.entity.enums.USER_ROLE;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -15,7 +14,8 @@ import java.util.Date;
 
 @Entity
 @Data
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Users{
     @Id
@@ -24,11 +24,16 @@ public class Users{
     private Integer id;
     @Column(name = "ROLE")
     private int role;
-    public USERROLE getRole() {
-        return USERROLE.valueOf(role);
+
+    public Users() {
+
     }
 
-    public void setRole(USERROLE role) {
+    public String getRole() {
+        return USER_ROLE.valueOf(role).name();
+    }
+
+    public void setRole(USER_ROLE role) {
         this.status = role.value;
     }
     @Column(name = "username")
@@ -74,33 +79,25 @@ public class Users{
     private boolean gender;
     @Column(name = "BIRTHDAY")
     private Date birthday;
-    @OneToMany(mappedBy = "users")
-    private Collection<Division> divisionList;
-    @OneToMany(mappedBy = "uploader")
+    @OneToMany(mappedBy = "uploader",fetch = FetchType.LAZY)
     private Collection<Files> fileList;
-    @OneToMany(mappedBy = "userCreated")
+    @OneToMany(mappedBy = "userCreated",fetch = FetchType.LAZY)
     private Collection<Issues> issuesByCreator;
-    @OneToMany(mappedBy = "assignee")
+    @OneToMany(mappedBy = "assignee",fetch = FetchType.LAZY)
     private Collection<Issues> issuesByAssignee;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
     private Collection<IssueChangeLog> issueChangeLogsList;
-    @OneToMany(mappedBy = "userRequested")
+    @OneToMany(mappedBy = "userRequested",fetch = FetchType.LAZY)
     private Collection<LeaveRequests> leaveRequestsByRequester;
-    @OneToMany(mappedBy = "userApproved")
+    @OneToMany(mappedBy = "userApproved",fetch = FetchType.LAZY)
     private Collection<LeaveRequests> leaveRequestsByApprover;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
     private Collection<ProjectUser> projectUsersList;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
     private Collection<Reports> reportsList;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
     private Collection<TimeLog> timeLogsList;
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "DIVISIONID", referencedColumnName = "ID", nullable = false)
-    private Division division;
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "AVATAR", referencedColumnName = "ID")
-    private Files avatar;
+    @Column(name = "Avatar")
+    private String avatar;
 
 }

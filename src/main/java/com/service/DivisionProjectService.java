@@ -4,18 +4,20 @@ import com.entity.DivisionProject;
 import com.repositories.DivisionProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DivisionProjectService {
 
     @Autowired
     DivisionProjectRepository repository;
 
     public DivisionProject save(DivisionProject s) {
-        return (DivisionProject) repository.findAll();
+        return repository.save(s);
     }
 
 
