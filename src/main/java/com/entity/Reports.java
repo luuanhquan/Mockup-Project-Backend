@@ -30,6 +30,7 @@ public class Reports {
     private Date dateCreated;
     @Column(name = "DATE_READ")
     private Date dateRead;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "PROJECTID", referencedColumnName = "ID", nullable = false)
