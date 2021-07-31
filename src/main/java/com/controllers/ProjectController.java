@@ -1,6 +1,7 @@
 package com.controllers;
 
 
+import com.DTO.ProjectDTO;
 import com.entity.Projects;
 import com.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-//@RequestMapping("${spring.data.rest.base-path}/Project")
 @RequestMapping("/project")
 public class ProjectController {
     @Autowired
@@ -24,11 +25,14 @@ public class ProjectController {
 
     //tìm all Project
     @GetMapping("/list")
-    public List<Projects> getAllProject() {
+    public List<ProjectDTO> getAllProject() {
         List<Projects> projects = projectService.findAll();
-        System.out.println(projects);
-        return projects;
+        List<ProjectDTO> list = projects.stream().map(projectItem -> new ProjectDTO(projectItem)).collect(Collectors.toList());
+//        System.out.println(projects);
+        return list;
     }
+
+
 
     //Tìm Project theo id
     @GetMapping("/view?id=?")

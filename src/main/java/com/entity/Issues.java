@@ -45,7 +45,7 @@ public class Issues {
     private Users assignee;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "PARENT_ISSUE", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "PARENT_ISSUE", referencedColumnName = "ID")
     private Issues parent;
     @OneToMany(mappedBy = "parent")
     private Collection<Issues> issueList;

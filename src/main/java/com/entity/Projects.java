@@ -20,12 +20,16 @@ public class Projects {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
+    //tên dự án
     @Column(name = "NAME")
+    //mô tả dự án
     private String name;
     @Column(name = "DESCRIPTION")
     private String description;
+    //ngày bắt đầu
     @Column(name = "DATE_STATED")
     private Date dateStated;
+    //ngày kết thúc
     @Column(name = "DATE_ENDED")
     private Date dateEnded;
     @Column(name = "STATUS")

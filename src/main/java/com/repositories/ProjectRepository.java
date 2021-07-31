@@ -10,8 +10,5 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Projects, Integer> {
-
-    @Query("select count(p.id) from Projects p")
-    long getAlProject();
 }
 
