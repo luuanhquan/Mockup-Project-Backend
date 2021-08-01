@@ -54,25 +54,6 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
 
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.cors();
-//        http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers( "/", "/home", "/forgot-password")
-//                    .permitAll()
-//
-//                .antMatchers("/user/**","/report/**")
-//                    .hasAnyRole("ADMIN","MANAGER")
-//
-//                .antMatchers( "/project/**","/report/**")
-//                    .hasAnyRole("ADMIN","MANAGER","PM")
-//
-//                .anyRequest().fullyAuthenticated()
-//                        .and().httpBasic();
-//    }
 }
 
 

@@ -1,14 +1,21 @@
 package com.entity;
 
+import com.DTO.IssueDTO;
+import com.DTO.ProjectCreateDTO;
+import com.DTO.ProjectDTO;
 import com.entity.enums.ACTIVE_STATUS;
+import com.service.ProjectService;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Projects")
@@ -52,4 +59,29 @@ public class Projects {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Collection<Reports> reportList;
 
+    public Projects loadFromDTO(ProjectDTO dto) throws ParseException {
+        this.name= dto.getName();
+        this.description = dto.getDescription();
+        this.dateStated =this.getDate(dto.getDateStated());
+        this.dateEnded = this.getDate(dto.getDateEnded());
+        this.status= ACTIVE_STATUS.valueOf(dto.getStatus()).value;
+        return this;
+    }
+
+    public Projects loadFromDTO(ProjectCreateDTO dto) throws ParseException {
+        this.name= dto.getName();
+        this.description = dto.getDes();
+        this.dateStated =dto.getDate_start();
+        this.dateEnded = dto.getDate_end();
+        this.status= ACTIVE_STATUS.valueOf(dto.getStatus()).value;
+        return this;
+    }
+
+
+
+    private Date getDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+
+
+    }
 }

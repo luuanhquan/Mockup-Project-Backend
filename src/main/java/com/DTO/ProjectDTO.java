@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Data
 public class ProjectDTO {
     private Integer id;
-    private String nameProject;
+    private String name;
     private String description;
     private String dateStated;
     private String dateEnded;
@@ -26,9 +26,9 @@ public class ProjectDTO {
     private int totalIssues;
     private  List<IssueDTO> listIssues;
 
-    public ProjectDTO(Projects projects) {
+    public ProjectDTO loadFromEntity(Projects projects) {
         this.id = projects.getId();
-        this.nameProject = projects.getName();
+        this.name = projects.getName();
         this.description = projects.getDescription();
         this.dateStated = formatDate(projects.getDateStated());
         this.dateEnded = formatDate(projects.getDateEnded());
@@ -42,11 +42,11 @@ public class ProjectDTO {
             listMember.add(p.getUsers());
         }
         listIssues= new ArrayList<>();
-        for(Issues i:(List<Issues>) projects.getIssueList()){
+        for(Issues i: projects.getIssueList()){
 
             this.listIssues.add( new IssueDTO(i));
         }
-
+return this;
     }
     private String formatDate (Date date){
         return  new SimpleDateFormat("dd/MM/yyyy").format(date);
