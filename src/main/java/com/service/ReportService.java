@@ -1,8 +1,10 @@
 package com.service;
 
+import com.DTO.ReportsDTO;
 import com.entity.Division;
 import com.entity.Reports;
 import com.entity.Users;
+
 import com.repositories.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,9 +23,15 @@ public class ReportService {
     ReportRepository repository;
 
 
+
     public Reports save(Reports s) {
         return repository.save(s);
     }
+
+
+//    public ReportsDTO save(ReportsDTO reportsDTO) {
+//        return repository.save(reportsDTO);
+//    }
 
 
     public List<Reports> findAll() {
@@ -34,6 +42,7 @@ public class ReportService {
     public void deleteById(Integer id) {
         repository.deleteById(id);
     }
+
 
 
     public Optional<Reports> findById(Integer id) {

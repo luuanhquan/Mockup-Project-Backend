@@ -6,18 +6,16 @@ import com.entity.Reports;
 import com.entity.Users;
 import com.repositories.DivisionUserRepository;
 import com.repositories.UsersRepository;
-import com.service.DivisionService;
-import com.service.DivisionUserService;
-import com.service.ReportService;
-import com.service.UsersService;
+import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -56,4 +54,22 @@ public class TestAPI {
         return reportsDTOS;
 
     }
+    @PutMapping(value = "/update/{id}" ,produces ="application/json" )
+    public ResponseEntity<Reports> ReadReport(@RequestBody ReportsDTO reportDto, @PathVariable("id")int id) throws ParseException {
+        Reports reports= new Reports(reportDto);
+        reports.setId(id);
+        String role="ADMIN";
+        if(role.equals("ADMIN")&&!reportDto.getStatus()){
+            reports.setDateRead(new Date());
+        }
+        return new ResponseEntity<>(reportService.save(reports), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/create" ,produces ="application/json" )
+    public ResponseEntity<Reports> ReadReport(@RequestBody ReportsDTO reportDto) throws ParseException {
+        Reports reports= new Reports(reportDto);
+        reports.setDateCreated(new Date());
+        return new ResponseEntity<>(reportService.save(reports), HttpStatus.OK);
+    }
+
 }

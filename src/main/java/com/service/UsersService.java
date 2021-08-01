@@ -54,6 +54,9 @@ public class UsersService implements UserDetailsService {
 
         return new CustomUserDetails(user);
     }
+    public Users findByUsername(String username){
+        return repository.findByUsername(username);
+    }
 
 
     public Users registerNewUserAccount(Users account) {
