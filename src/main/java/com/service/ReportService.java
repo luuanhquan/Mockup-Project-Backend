@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-@Transactional
 public class ReportService {
     @Autowired
     private JavaMailSender javaMailSender;
@@ -25,7 +23,7 @@ public class ReportService {
 
 
     public Reports save(Reports s) {
-        return repository.save(s);
+        return (Reports) repository.findAll();
     }
 
 

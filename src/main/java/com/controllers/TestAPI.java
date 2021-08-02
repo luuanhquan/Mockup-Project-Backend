@@ -1,5 +1,6 @@
 package com.controllers;
 
+
 import com.DTO.ReportsDTO;
 import com.entity.Division;
 import com.entity.Reports;
@@ -17,6 +18,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import java.util.List;=======
+import com.entity.Division;
+import com.service.DivisionService;
+import com.service.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;>>>>>>>test
 
 import java.util.List;
 

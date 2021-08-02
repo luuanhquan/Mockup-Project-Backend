@@ -4,20 +4,18 @@ import com.entity.Files;
 import com.repositories.FilesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class FilesService {
 
     @Autowired
     FilesRepository repository;
 
     public Files save(Files s) {
-        return repository.save(s);
+        return (Files) repository.findAll();
     }
 
 

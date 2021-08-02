@@ -1,14 +1,15 @@
 package com.entity;
 
+import com.dto.UserDTO;
 import com.entity.enums.ACTIVE_STATUS;
-import com.entity.enums.USER_ROLE;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import com.entity.enums.USERROLE;
+import com.entity.enums.USER_TYPE;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -16,24 +17,20 @@ import java.util.Date;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Users{
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "ROLE")
     private int role;
-
-    public Users() {
-
+    public USERROLE getRole() {
+        return USERROLE.valueOf(role);
     }
 
-    public String getRole() {
-        return USER_ROLE.valueOf(role).name();
-    }
-
-    public void setRole(USER_ROLE role) {
+    public void setRole(USERROLE role) {
         this.status = role.value;
     }
     @Column(name = "username")
@@ -52,6 +49,13 @@ public class Users{
     private String lastname;
     @Column(name = "TYPE")
     private long type;
+    public USER_TYPE getType() {
+        return USER_TYPE.valueOf((int) type);
+    }
+
+    public void setType(USER_TYPE type) {
+        this.type = type.value;
+    }
     @Column(name = "PERSONALID")
     private Long personalid;
     @Column(name = "HOMETOWN")
@@ -64,6 +68,8 @@ public class Users{
     private String major;
     @Column(name = "STATUS")
     private long status;
+    @Column(name = "AVATAR")
+    private String avatar;
     public ACTIVE_STATUS getStatus() {
         return ACTIVE_STATUS.valueOf((int) status);
     }
@@ -79,25 +85,49 @@ public class Users{
     private boolean gender;
     @Column(name = "BIRTHDAY")
     private Date birthday;
-    @OneToMany(mappedBy = "uploader",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "uploader")
     private Collection<Files> fileList;
-    @OneToMany(mappedBy = "userCreated",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userCreated")
     private Collection<Issues> issuesByCreator;
-    @OneToMany(mappedBy = "assignee",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "assignee")
     private Collection<Issues> issuesByAssignee;
-    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users")
     private Collection<IssueChangeLog> issueChangeLogsList;
-    @OneToMany(mappedBy = "userRequested",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userRequested")
     private Collection<LeaveRequests> leaveRequestsByRequester;
-    @OneToMany(mappedBy = "userApproved",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userApproved")
     private Collection<LeaveRequests> leaveRequestsByApprover;
-    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users")
     private Collection<ProjectUser> projectUsersList;
-    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users")
     private Collection<Reports> reportsList;
-    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
-    @Column(name = "Avatar")
-    private String avatar;
+
+    public Users loadFromDTO(UserDTO dto) throws ParseException {
+
+        this.username=dto.getUsername();
+        this.password=dto.getPassword();
+        this.email=dto.getEmail();
+        this.phone=dto.getPhone();
+        this.type=USER_TYPE.valueOf(dto.getType()).value;
+        this.avatar=dto.getAvatar();
+        this.hometown=dto.getHometown();
+        this.personalid=dto.getPersonalid();
+        this.firstname=dto.getFirstname();
+        this.middlename=dto.getMiddlename();
+        this.lastname=dto.getLastname();
+//        this.gender=dto.getGender();
+        this.birthday= this.getDate(dto.getBirthday());
+        this.education=dto.getEducation();
+        this.school=dto.getSchool();
+        this.major=dto.getMajor();
+        return this;
+    }
+
+
+    private Date getDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+    }
 
 }
