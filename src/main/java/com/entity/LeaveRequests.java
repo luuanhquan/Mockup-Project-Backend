@@ -1,13 +1,21 @@
 package com.entity;
 
+import com.dto.LeaveRequestDTO;
 import com.entity.enums.REQUEST_STATUS;
+import com.entity.enums.UNIT_TYPE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.service.LeaveRequestService;
+import com.service.RequestTypeService;
+import com.service.UsersService;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -57,5 +65,22 @@ public class LeaveRequests {
     @JsonIgnore
     @JoinColumn(name = "TYPE", referencedColumnName = "ID", nullable = false)
     private RequestType requestType;
+
+
+    public LeaveRequests loadFromDTO(LeaveRequestDTO dto) throws ParseException {
+        this.dateRequested= this.getDate(dto.getDateRequested());
+        this.duration=dto.getDuration();
+        return this;
+    }
+
+
+    private Date getDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+    }
+
+
+
+
+
 
 }

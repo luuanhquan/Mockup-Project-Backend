@@ -79,6 +79,21 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.cloudfoundry.identity</groupId>
+            <artifactId>cloudfoundry-identity-common</artifactId>
+            <version>1.0.0.p6</version>
+        </dependency>
+        <dependency>
+            <groupId>com</groupId>
+            <artifactId>MockupProject</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.odrotbohm.playground</groupId>
+            <artifactId>modelmapper-spring-data</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
