@@ -70,13 +70,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UsersService userService;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
-        http.csrf().disable().authorizeRequests().antMatchers("/**").permitAll().and().httpBasic();
-        // thieeus ddoabn nayaf
-    }
+    
 
     @Bean
     public PasswordEncoder passwordEncoder() {
