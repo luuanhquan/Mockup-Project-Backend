@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
+@Table(name = "PROJECTS")
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -36,15 +37,15 @@ public class Projects {
     public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     private Collection<DivisionProject> divisionProjectList;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     private Collection<FileProject> fileProjectList;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     private Collection<Issues> issueList;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     private Collection<ProjectUser> projectUserList;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     private Collection<Reports> reportList;
 
 }

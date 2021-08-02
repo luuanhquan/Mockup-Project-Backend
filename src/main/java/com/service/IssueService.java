@@ -22,8 +22,10 @@ public class IssueService {
 
 
     public List<Issues> findAll() {
-        return repository.findAll();
+        return repository.findIssuesRoot();
     }
+
+
 
 
     public void deleteById(Integer id) {
