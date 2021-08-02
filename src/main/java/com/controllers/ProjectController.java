@@ -12,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,14 +34,13 @@ public class ProjectController {
     public List<ProjectDTO> getAllProject() {
         List<Projects> projects = projectService.findAll();
         List<ProjectDTO> list = projects.stream().map(projectItem -> new ProjectDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
-//        System.out.println(projects);
         return list;
     }
 
 
 
     //Tìm Project theo id
-    @GetMapping("/view?id=?")
+    @GetMapping("/view/{id}")
     public ResponseEntity<Projects> getProjectById(@PathVariable("id") Integer id) {
         Projects project = projectService.findbyProjects(id);
         return new ResponseEntity<>(project, HttpStatus.OK);
@@ -52,21 +54,6 @@ public class ProjectController {
         projectService.addProject(project);
         return new ResponseEntity<>( HttpStatus.CREATED);
     }
-
-//    //THeem project dto
-//    @PostMapping(value = "/create-pj" ,produces ="application/json" )
-//    public ResponseEntity<Projects> ReadReport(@RequestBody ReportsDTO reportDto) throws ParseException {
-//        Reports reports= new Reports(reportDto);
-//        reports.setDateCreated(new Date());
-//        return new ResponseEntity<>(reportService.save(reports), HttpStatus.OK);
-//    }
-
-    //edit project
-//    @PutMapping("/edit")
-//    public ResponseEntity<Projects> updateProject(@RequestBody Projects projects) {
-//        Projects updateProject = projectService.updateProject(projects);
-//        return new ResponseEntity<>(updateProject, HttpStatus.OK);
-//    }
 
     //update project
     @PutMapping(value = "/update/{id}" ,produces ="application/json" )
@@ -82,5 +69,4 @@ public class ProjectController {
         projectService.deleteProject(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
