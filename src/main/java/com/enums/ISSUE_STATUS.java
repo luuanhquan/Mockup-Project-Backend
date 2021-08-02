@@ -1,4 +1,4 @@
-package com.entity.enums;
+package com.enums;
 
 public enum ISSUE_STATUS {
     NEW(0),

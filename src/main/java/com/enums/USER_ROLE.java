@@ -1,10 +1,10 @@
-package com.entity.enums;
+package com.enums;
 
 public enum USER_ROLE {
-    ROLE_ADMIN(0),
-    ROLE_MANAGER(1),
-    ROLE_PM(2),
-    ROLE_MEMBER(3);
+    ADMIN(0),
+    MANAGER(1),
+    PM(2),
+    MEMBER(3);
 
     public final int value;
 
@@ -23,9 +23,5 @@ public enum USER_ROLE {
             }
         }
         return null;
-    }
-
-    static String role(USER_ROLE role){
-        return role.name().substring(6);
     }
 }

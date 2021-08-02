@@ -28,8 +28,9 @@ public class RequestTypeService {
         repository.deleteById(id);
     }
 
-    public RequestType findByName(String name){
-        return repository.findByName(name);}
+    public RequestType findByName(String name) {
+        return repository.findByName(name);
+    }
 
 
     public Optional<RequestType> findById(Integer id) {

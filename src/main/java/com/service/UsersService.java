@@ -2,29 +2,30 @@ package com.service;
 
 import com.entity.CustomUserDetails;
 import com.entity.Users;
-import com.entity.enums.STATUS_REGISTER;
+import com.enums.STATUS_REGISTER;
 import com.repositories.UsersRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class UsersService implements UserDetailsService {
-    public static final Logger logger = LogManager.getLogger(UsersService.class);
 
     @Autowired
     UsersRepository repository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
     public Users save(Users s) {
         return (Users) repository.findAll();
     }
@@ -42,7 +43,6 @@ public class UsersService implements UserDetailsService {
     }
 
     public STATUS_REGISTER registerNewUser(Users users) {
-        logger.info("Start registerNewUser");
         try {
             // check existed user-----------------------------------------
             if (findByUsername(users.getUsername()) != null) {
@@ -58,7 +58,6 @@ public class UsersService implements UserDetailsService {
 
             return STATUS_REGISTER.Success;
         } catch (Exception ex) {
-            logger.info("Exception on registerNewUser: " + ex.getMessage());
             return STATUS_REGISTER.Error_OnSystem;
         }
     }
@@ -66,9 +65,9 @@ public class UsersService implements UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?
-        Users user = repository.findByUsername(username);
+        Users user = repository.findByUsername(username).get(0);
+        System.out.println(user);
         if (user == null) {
-            System.out.println("failed");
             throw new UsernameNotFoundException(username);
         }
 
@@ -76,7 +75,7 @@ public class UsersService implements UserDetailsService {
     }
 
     public Users findByUsername(String username) {
-        return repository.findByUsername(username);
+        return repository.findByUsername(username).get(0);
     }
 
     public Users registerNewUserAccount(Users account) {
@@ -88,4 +87,8 @@ public class UsersService implements UserDetailsService {
         return StreamSupport.stream(repository.findByEmail(email).spliterator(), false).findFirst().orElse(null);
     }
 
+    public Users getUserLogin(){
+        CustomUserDetails login= (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return login.getUser();
+    }
 }

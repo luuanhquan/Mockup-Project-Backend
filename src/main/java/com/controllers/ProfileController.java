@@ -19,21 +19,15 @@ public class ProfileController {
     @Autowired
     UsersService usersService;
 
-    @PutMapping(value = "/profile")
-        public ResponseEntity<Users> getProfile(@RequestBody UserDTO userDTO, @PathVariable("username")String  username) throws ParseException {
-            Users users= new Users().loadFromDTO(userDTO);
-            users.setUsername(username);
+    @PutMapping(value = "/view")
+    public ResponseEntity<Users> getProfile(@RequestBody UserDTO userDTO) throws ParseException {
+        Users users = new Users().loadFromDTO(userDTO);
         return new ResponseEntity<>(usersService.save(users), HttpStatus.OK);
     }
 
-
-
-
-
-    @PutMapping(value = "/update/{username}" ,produces ="application/json" )
-    public ResponseEntity<Users> updateProfile(@RequestBody UserDTO userDTO, @PathVariable("username")String  username) throws ParseException {
-        Users users= new Users().loadFromDTO(userDTO);
-        users.setUsername(username);
+    @PutMapping(value = "/update/{username}", produces = "application/json")
+    public ResponseEntity<Users> updateProfile(@RequestBody UserDTO userDTO) throws ParseException {
+        Users users = new Users().loadFromDTO(userDTO);
         return new ResponseEntity<>(usersService.save(users), HttpStatus.OK);
     }
 

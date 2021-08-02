@@ -25,21 +25,21 @@ public class LeaveRequestDTO {
     private String status;
     private String dateCreated;
 
-    public LeaveRequestDTO loadFromEntity(LeaveRequests requests){
-        this.id= requests.getId();
-        this.userRequested=requests.getUserRequested().getUsername();
-        this.userApproved= requests.getUserApproved().getUsername();
-        this.dateRequested= formatDate(requests.getDateRequested());
-        this.dateApproved=formatDate(requests.getDateApproved());
-        this.duration= requests.getDuration();
-        this.unit=requests.getRequestType().getUnit().name();
+    public LeaveRequestDTO loadFromEntity(LeaveRequests requests) {
+        this.id = requests.getId();
+        this.userRequested = requests.getUserRequested().getUsername();
+        this.userApproved = requests.getUserApproved().getUsername();
+        this.dateRequested = formatDate(requests.getDateRequested());
+        this.dateApproved = formatDate(requests.getDateApproved());
+        this.duration = requests.getDuration();
+        this.unit = requests.getRequestType().getUnit().name();
         this.type = requests.getRequestType().getName();
-        this.status=requests.getStatus().name();
-        this.dateCreated=formatDate(requests.getDateCreated());
+        this.status = requests.getStatus().name();
+        this.dateCreated = formatDate(requests.getDateCreated());
         return this;
     }
 
-    private String formatDate(Date date){
+    private String formatDate(Date date) {
         return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 

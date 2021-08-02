@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.entity.enums.UNIT_TYPE;
+import com.enums.UNIT_TYPE;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +23,9 @@ public class RequestType {
     private String name;
     @Column(name = "UNIT")
     private long unit;
+    @OneToMany(mappedBy = "requestType")
+    private Collection<LeaveRequests> leaveRequestList;
+
     public UNIT_TYPE getUnit() {
         return UNIT_TYPE.valueOf((int) unit);
     }
@@ -30,7 +33,5 @@ public class RequestType {
     public void setUnit(UNIT_TYPE status) {
         this.unit = status.value;
     }
-    @OneToMany(mappedBy = "requestType")
-    private Collection<LeaveRequests> leaveRequestList;
 
 }

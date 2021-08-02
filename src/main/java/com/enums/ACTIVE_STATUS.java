@@ -1,4 +1,4 @@
-package com.entity.enums;
+package com.enums;
 
 public enum ACTIVE_STATUS {
     INACTIVE(0),

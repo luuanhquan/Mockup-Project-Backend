@@ -1,4 +1,4 @@
-package com.entity.enums;
+package com.enums;
 
 public enum STATUS_REGISTER {
     Existed_Username,

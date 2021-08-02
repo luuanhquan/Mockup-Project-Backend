@@ -1,9 +1,9 @@
 package com.entity;
 
 import com.dto.UserDTO;
-import com.entity.enums.ACTIVE_STATUS;
-import com.entity.enums.USERROLE;
-import com.entity.enums.USER_TYPE;
+import com.enums.ACTIVE_STATUS;
+import com.enums.USER_ROLE;
+import com.enums.USER_TYPE;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -26,13 +26,6 @@ public class Users {
     private Integer id;
     @Column(name = "ROLE")
     private int role;
-    public USERROLE getRole() {
-        return USERROLE.valueOf(role);
-    }
-
-    public void setRole(USERROLE role) {
-        this.status = role.value;
-    }
     @Column(name = "username")
     private String username;
     @Column(name = "password")
@@ -49,13 +42,6 @@ public class Users {
     private String lastname;
     @Column(name = "TYPE")
     private long type;
-    public USER_TYPE getType() {
-        return USER_TYPE.valueOf((int) type);
-    }
-
-    public void setType(USER_TYPE type) {
-        this.type = type.value;
-    }
     @Column(name = "PERSONALID")
     private Long personalid;
     @Column(name = "HOMETOWN")
@@ -70,13 +56,6 @@ public class Users {
     private long status;
     @Column(name = "AVATAR")
     private String avatar;
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf((int) status);
-    }
-
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
-    }
     @Column(name = "DAY_OFF_LAST_YEAR")
     private Long dayOffLastYear;
     @Column(name = "DATE_CREATED")
@@ -104,24 +83,48 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
 
+    public USER_ROLE getRole() {
+        return USER_ROLE.valueOf(role);
+    }
+
+    public void setRole(USER_ROLE role) {
+        this.status = role.value;
+    }
+
+    public USER_TYPE getType() {
+        return USER_TYPE.valueOf((int) type);
+    }
+
+    public void setType(USER_TYPE type) {
+        this.type = type.value;
+    }
+
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf((int) status);
+    }
+
+    public void setStatus(ACTIVE_STATUS status) {
+        this.status = status.value;
+    }
+
     public Users loadFromDTO(UserDTO dto) throws ParseException {
 
-        this.username=dto.getUsername();
-        this.password=dto.getPassword();
-        this.email=dto.getEmail();
-        this.phone=dto.getPhone();
-        this.type=USER_TYPE.valueOf(dto.getType()).value;
-        this.avatar=dto.getAvatar();
-        this.hometown=dto.getHometown();
-        this.personalid=dto.getPersonalid();
-        this.firstname=dto.getFirstname();
-        this.middlename=dto.getMiddlename();
-        this.lastname=dto.getLastname();
+        this.username = dto.getUsername();
+        this.password = dto.getPassword();
+        this.email = dto.getEmail();
+        this.phone = dto.getPhone();
+        this.type = USER_TYPE.valueOf(dto.getType()).value;
+        this.avatar = dto.getAvatar();
+        this.hometown = dto.getHometown();
+        this.personalid = dto.getPersonalid();
+        this.firstname = dto.getFirstname();
+        this.middlename = dto.getMiddlename();
+        this.lastname = dto.getLastname();
 //        this.gender=dto.getGender();
-        this.birthday= this.getDate(dto.getBirthday());
-        this.education=dto.getEducation();
-        this.school=dto.getSchool();
-        this.major=dto.getMajor();
+        this.birthday = this.getDate(dto.getBirthday());
+        this.education = dto.getEducation();
+        this.school = dto.getSchool();
+        this.major = dto.getMajor();
         return this;
     }
 

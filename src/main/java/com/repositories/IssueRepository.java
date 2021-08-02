@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface IssueRepository extends JpaRepository<Issues, Integer> {
     @Query("from Issues i  where i.parent is NULL ")
-    public List<Issues> findIssuesRoot() ;
+    public List<Issues> findIssuesRoot();
 }
 

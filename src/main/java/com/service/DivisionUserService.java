@@ -38,14 +38,14 @@ public class DivisionUserService {
 
 
     public Division findByUserId(Users user) {
-        return  repository.getDivisionByUsers(user).get(0);
+        return repository.getDivisionByUsers(user).get(0);
     }
 
-    public Users  findManager(Division division){
-        return repository. getUsersByDivision(division).get(0);
+    public Users findManager(Division division) {
+        return repository.getUsersByDivision(division).get(0);
     }
 
-    public Division findDivisionByUsers(Users users){
+    public Division findDivisionByUsers(Users users) {
         return repository.getDivisionByUsers(users).get(0);
     }
 }

@@ -1,6 +1,6 @@
 package com.controllers;
 
-import com.DTO.ProjectSimple;
+import com.DTO.ProjectSimpleDTO;
 import com.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class SimpleProjectController {
+public class ProjectSimpleController {
     @Autowired
     ProjectService service;
 
-        @GetMapping(path = "/project/all")
-        public List<ProjectSimple> basicauth() {
-            return service.findAll().stream().map(item->new ProjectSimple(item)).collect(Collectors.toList());
+    @GetMapping(path = "/project/all")
+    public List<ProjectSimpleDTO> basicauth() {
+        return service.findAll().stream().map(item -> new ProjectSimpleDTO(item)).collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.entity;
 
+import com.enums.ACTIVE_STATUS;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,7 +37,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getStatus()== ACTIVE_STATUS.ACTIVE;
     }
 
     @Override
@@ -46,6 +47,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getStatus().value==1;
+        return user.getStatus()== ACTIVE_STATUS.ACTIVE;
     }
 }

@@ -1,4 +1,4 @@
-package com.entity.enums;
+package com.enums;
 
 public enum REQUEST_STATUS {
     PENDING(0),

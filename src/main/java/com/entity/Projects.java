@@ -1,8 +1,8 @@
 package com.entity;
 
 import com.DTO.ProjectCreateDTO;
-import com.DTO.ProjectDTO;
-import com.entity.enums.ACTIVE_STATUS;
+import com.DTO.ProjectDetailDTO;
+import com.enums.ACTIVE_STATUS;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,15 +38,6 @@ public class Projects {
     private Date dateEnded;
     @Column(name = "STATUS")
     private int status;
-
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf((int) status);
-    }
-
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
-    }
-
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Collection<DivisionProject> divisionProjectList;
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
@@ -58,7 +49,15 @@ public class Projects {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Collection<Reports> reportList;
 
-    public Projects loadFromDTO(ProjectDTO dto) throws ParseException {
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf((int) status);
+    }
+
+    public void setStatus(ACTIVE_STATUS status) {
+        this.status = status.value;
+    }
+
+    public Projects loadFromDTO(ProjectDetailDTO dto) throws ParseException {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.dateStated = this.getDate(dto.getDateStated());

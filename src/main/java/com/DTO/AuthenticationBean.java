@@ -12,10 +12,8 @@ public class AuthenticationBean {
 
     public AuthenticationBean(Users user_login) {
         this.username = user_login.getUsername();
-        this.role= user_login.getRole().name().substring(5);
-        this.avatar= user_login.getAvatar();
-
+        this.role = user_login.getRole().name().substring(5);
+        this.avatar = user_login.getAvatar();
     }
-
 }
 

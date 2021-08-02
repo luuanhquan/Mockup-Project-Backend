@@ -1,23 +1,21 @@
-package com.entity.enums;
+package com.enums;
 
-public enum USER_TYPE {
-    THU_VIEC(0),
-    THUC_TAP(1),
-    NHAN_VIEN_CHINH_THUC(2);
-
+public enum EMAIL_TYPE {
+    FORGOT(0),
+    ACTIVE(1);
 
     public final int value;
 
-    USER_TYPE(int value) {
+    EMAIL_TYPE(int value) {
         this.value = value;
     }
 
-    public static USER_TYPE valueOf(Integer value) {
+    public static EMAIL_TYPE valueOf(Integer value) {
         if (value == null) {
             return null;
         }
 
-        for (USER_TYPE val : USER_TYPE.values()) {
+        for (EMAIL_TYPE val : EMAIL_TYPE.values()) {
             if (val.value == value) {
                 return val;
             }

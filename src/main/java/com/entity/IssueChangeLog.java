@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.entity.enums.ACTIVE_STATUS;
+import com.enums.ACTIVE_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -44,13 +44,6 @@ public class IssueChangeLog {
     private Long timespend;
     @Column(name = "STATUS")
     private long status;
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf((int) status);
-    }
-
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
-    }
     @Column(name = "COMMENTS")
     private String comments;
     @ManyToOne
@@ -61,4 +54,12 @@ public class IssueChangeLog {
     @JsonIgnore
     @JoinColumn(name = "USER_MODIFIED", referencedColumnName = "ID", nullable = false)
     private Users users;
+
+    public ACTIVE_STATUS getStatus() {
+        return ACTIVE_STATUS.valueOf((int) status);
+    }
+
+    public void setStatus(ACTIVE_STATUS status) {
+        this.status = status.value;
+    }
 }

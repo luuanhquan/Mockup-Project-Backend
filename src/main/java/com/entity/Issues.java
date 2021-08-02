@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.entity.enums.ISSUE_STATUS;
+import com.enums.ISSUE_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -21,14 +21,6 @@ public class Issues {
     private Integer id;
     @Column(name = "STATUS")
     private long status;
-
-    public ISSUE_STATUS getStatus() {
-        return ISSUE_STATUS.valueOf((int) status);
-    }
-
-    public void setStatus(ISSUE_STATUS status) {
-        this.status = status.value;
-    }
     @OneToMany(mappedBy = "issue")
     private Collection<FileIssue> fileIssuesById;
     @ManyToOne
@@ -53,5 +45,13 @@ public class Issues {
     private Collection<IssueChangeLog> issueChangeLogList;
     @OneToMany(mappedBy = "issue")
     private Collection<TimeLog> timeLogList;
+
+    public ISSUE_STATUS getStatus() {
+        return ISSUE_STATUS.valueOf((int) status);
+    }
+
+    public void setStatus(ISSUE_STATUS status) {
+        this.status = status.value;
+    }
 
 }

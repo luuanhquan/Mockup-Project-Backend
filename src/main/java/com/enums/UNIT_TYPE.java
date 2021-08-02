@@ -1,4 +1,4 @@
-package com.entity.enums;
+package com.enums;
 
 public enum UNIT_TYPE {
     HOUR(0),

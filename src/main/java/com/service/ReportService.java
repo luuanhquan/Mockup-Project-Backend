@@ -13,39 +13,32 @@ import java.util.Optional;
 @Service
 public class ReportService {
     @Autowired
-    private JavaMailSender javaMailSender;
-    @Autowired
     ReportRepository repository;
-
-
-
-    public Reports save(Reports s) {
-        return (Reports) repository.findAll();
-    }
+    @Autowired
+    DivisionUserService divisionUserService;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
 
 //    public ReportsDTO save(ReportsDTO reportsDTO) {
 //        return repository.save(reportsDTO);
 //    }
 
+    public Reports save(Reports s) {
+        return (Reports) repository.findAll();
+    }
 
     public List<Reports> findAll() {
         return repository.findAll();
     }
 
-
     public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 
-
-
     public Optional<Reports> findById(Integer id) {
         return repository.findById(id);
     }
-
-    @Autowired
-    DivisionUserService divisionUserService;
 
 //    public  void getEmail(Division division){
 //        Users a= divisionUserService.findManager(division);
@@ -64,7 +57,7 @@ public class ReportService {
 //        }
 //    }
 
-    public void sendEmail(String email, String subject, String body){
+    public void sendEmail(String email, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(email);

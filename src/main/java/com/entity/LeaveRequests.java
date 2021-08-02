@@ -1,7 +1,7 @@
 package com.entity;
 
 import com.dto.LeaveRequestDTO;
-import com.entity.enums.REQUEST_STATUS;
+import com.enums.REQUEST_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -34,15 +34,6 @@ public class LeaveRequests {
     @Basic
     @Column(name = "STATUS")
     private long status;
-
-    public REQUEST_STATUS getStatus() {
-        return REQUEST_STATUS.valueOf((int) status);
-    }
-
-    public void setStatus(REQUEST_STATUS status) {
-        this.status = status.value;
-    }
-
     @Basic
     @Column(name = "DURATION")
     private long duration;
@@ -61,10 +52,17 @@ public class LeaveRequests {
     @JoinColumn(name = "TYPE", referencedColumnName = "ID", nullable = false)
     private RequestType requestType;
 
+    public REQUEST_STATUS getStatus() {
+        return REQUEST_STATUS.valueOf((int) status);
+    }
+
+    public void setStatus(REQUEST_STATUS status) {
+        this.status = status.value;
+    }
 
     public LeaveRequests loadFromDTO(LeaveRequestDTO dto) throws ParseException {
-        this.dateRequested= this.getDate(dto.getDateRequested());
-        this.duration=dto.getDuration();
+        this.dateRequested = this.getDate(dto.getDateRequested());
+        this.duration = dto.getDuration();
         return this;
     }
 
@@ -72,10 +70,6 @@ public class LeaveRequests {
     private Date getDate(String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(date);
     }
-
-
-
-
 
 
 }

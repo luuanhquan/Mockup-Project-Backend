@@ -29,7 +29,6 @@ public interface LeaveRequestRepository extends JpaRepository<LeaveRequests, Int
     List<LeaveRequests> listPmApprove(long duration);
 
 
-
     LeaveRequests findRequestById(Integer id);
 
 }

@@ -13,18 +13,14 @@ import java.util.List;
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 
 
-
     @Query("select u from Users u where u.email = :email")
     List<Users> findByEmail(@Param("email") String email);
 
 
-//    @Query("select u from Users u where u.username = :username")
-//    List<Users> findByUsername(@Param("username") String userName);
+    @Query("select u from Users u where u.username = :username")
+    List<Users> findByUsername(@Param("username") String userName);
 
-    @Query("from Users u where u.username like ?1")
-    Users findByUsername(String username);
+//    @Query("from Users u where u.username = ?1")
+//    Users findByUsername(String username);
 
-//    UserDTO getProfile();
-
-//    ProfileResponse getProfile(Integer id);
 }

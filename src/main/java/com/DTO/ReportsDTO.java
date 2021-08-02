@@ -4,6 +4,7 @@ import com.entity.Reports;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
 public class ReportsDTO {
     String projectId;
@@ -26,10 +27,10 @@ public class ReportsDTO {
         this.dateCreat = reports.getDateCreated().toString();
         this.type = reports.getType().name();
         this.creater = reports.getUsers().getUsername();
-        this.status= reports.getDateRead()!=null;
-        this.advantage=reports.getAdvantage();
-        this.disadvantage=reports.getDisadvantage();
-        this.difficuly=reports.getDifficulty();
-        this.propose=reports.getPropose();
+        this.status = reports.getDateRead() != null;
+        this.advantage = reports.getAdvantage();
+        this.disadvantage = reports.getDisadvantage();
+        this.difficuly = reports.getDifficulty();
+        this.propose = reports.getPropose();
     }
 }
