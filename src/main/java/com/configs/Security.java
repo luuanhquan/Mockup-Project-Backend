@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
 
+
     @Autowired
     UsersService userService;
 
@@ -44,9 +45,9 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
 
-
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception{
+        http.httpBasic().disable();
         http.cors();
         http.csrf().disable()
                 .authorizeRequests()

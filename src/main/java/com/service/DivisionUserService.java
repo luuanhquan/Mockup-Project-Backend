@@ -1,6 +1,8 @@
 package com.service;
 
+import com.entity.Division;
 import com.entity.DivisionUser;
+import com.entity.Users;
 import com.repositories.DivisionUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +37,15 @@ public class DivisionUserService {
     }
 
 
-//    public Division findByUserId(Users user) {
-//        return  repository.findAllByUsers(user).get(0);
-//    }
+    public Division findByUserId(Users user) {
+        return  repository.getDivisionByUsers(user).get(0);
+    }
 
-//    public Users findBoss(Division division, Boolean isManager){
-//        return repository.findAllByDivisionAndIsManager(division,true).get(0);
-//    }
+    public Users  findManager(Division division){
+        return repository. getUsersByDivision(division).get(0);
+    }
+
+    public Division findDivisionByUsers(Users users){
+        return repository.getDivisionByUsers(users).get(0);
+    }
 }

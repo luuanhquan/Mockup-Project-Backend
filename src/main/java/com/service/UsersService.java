@@ -1,6 +1,7 @@
 package com.service;
 
 import com.entity.CustomUserDetails;
+import com.entity.Division;
 import com.entity.Users;
 import com.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class UsersService implements UserDetailsService {
     public Users save(Users s) {
         return repository.save(s);
     }
+
     public List<Users> findAll() {
         return repository.findAll();
     }
@@ -52,10 +54,14 @@ public class UsersService implements UserDetailsService {
 
         return new CustomUserDetails(user);
     }
+    public Users findByUsername(String username){
+        return repository.findByUsername(username);
+    }
 
 
     public Users registerNewUserAccount(Users account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-         return repository.save(account);
+        return repository.save(account);
     }
 }
+
