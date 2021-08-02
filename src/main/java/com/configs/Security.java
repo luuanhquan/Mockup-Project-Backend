@@ -14,15 +14,20 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 //
 @Configuration
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
 
-
     @Autowired
     UsersService userService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors();
+        http.csrf().disable().authorizeRequests().antMatchers("/**").permitAll().and().httpBasic();
+
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -32,38 +37,27 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new
-                UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
+    protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable();
         http.cors();
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/forgot-password")
-                .permitAll()
+        http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/forgot-password").permitAll()
 
-                .antMatchers("/user/**", "/report/**")
-                .hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/user/**", "/report/**").hasAnyRole("ADMIN", "MANAGER")
 
-                .antMatchers("/project/**", "/report/**")
-                .hasAnyRole("ADMIN", "MANAGER", "PM")
+                .antMatchers("/project/**", "/report/**").hasAnyRole("ADMIN", "MANAGER", "PM")
 
-                .anyRequest().fullyAuthenticated()
-                .and().httpBasic();
+                .anyRequest().fullyAuthenticated().and().httpBasic();
     }
 }
-
-
-

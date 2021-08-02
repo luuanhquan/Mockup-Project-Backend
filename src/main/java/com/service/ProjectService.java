@@ -7,31 +7,38 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
 public class ProjectService {
 
     @Autowired
-    ProjectRepository repository;
-
-    public Projects save(Projects s) {
-        return repository.save(s);
-    }
-
+    ProjectRepository projectRepository;
 
     public List<Projects> findAll() {
-        return repository.findAll();
+        return projectRepository.findAll();
     }
 
 
-    public void deleteById(Integer id) {
-        repository.deleteById(id);
+    public Projects findbyProjects(Integer id) {
+        return projectRepository.findById(id)
+                .orElse(null);
     }
 
-
-    public Optional<Projects> findById(Integer id) {
-        return repository.findById(id);
+    //Add project
+    public Projects addProject(Projects projects) {
+        return projectRepository.save(projects);
     }
+
+    //Edit Project
+    public Projects updateProject(Projects projects) {
+        return projectRepository.saveAndFlush(projects);
+    }
+
+    //Delete Project
+    public void deleteProject(Integer id) {
+        projectRepository.deleteById(id);
+    }
+
 }

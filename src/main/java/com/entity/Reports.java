@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
+@Table(name = "REPORTS")
 @Data
 @Table(name = "REPORTS")
 @NoArgsConstructor
