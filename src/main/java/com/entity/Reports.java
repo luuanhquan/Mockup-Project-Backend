@@ -1,7 +1,6 @@
 package com.entity;
 
 import com.DTO.ReportsDTO;
-import com.entity.enums.ISSUE_STATUS;
 import com.entity.enums.REPORT_TYPE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.service.ProjectService;
@@ -19,7 +18,6 @@ import java.util.Date;
 @Entity
 @Table(name = "REPORTS")
 @Data
-@Table(name = "REPORTS")
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Reports {
@@ -60,7 +58,7 @@ public class Reports {
     }
 
     public Reports(ReportsDTO dto) throws ParseException {
-        this.project = new ProjectService().findById(Integer.valueOf(dto.getProjectId())).orElse(null);
+        this.project = new ProjectService().findbyProjects(Integer.valueOf(dto.getProjectId()));
         this.advantage = dto.getAdvantage();
         this.disadvantage = dto.getDisadvantage();
         this.difficulty = dto.getDifficuly();

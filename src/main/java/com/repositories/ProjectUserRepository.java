@@ -1,6 +1,5 @@
 package com.repositories;
 
-import com.entity.Division;
 import com.entity.ProjectUser;
 import com.entity.Projects;
 import org.springframework.data.jpa.repository.JpaRepository;

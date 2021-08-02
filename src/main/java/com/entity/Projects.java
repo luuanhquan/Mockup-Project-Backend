@@ -1,10 +1,8 @@
 package com.entity;
 
-import com.DTO.IssueDTO;
 import com.DTO.ProjectCreateDTO;
 import com.DTO.ProjectDTO;
 import com.entity.enums.ACTIVE_STATUS;
-import com.service.ProjectService;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "PROJECTS")

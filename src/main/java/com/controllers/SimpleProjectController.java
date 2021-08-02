@@ -1,11 +1,8 @@
 package com.controllers;
 
-import com.DTO.AuthenticationBean;
 import com.DTO.ProjectSimple;
-import com.entity.CustomUserDetails;
 import com.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

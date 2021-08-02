@@ -1,13 +1,8 @@
 package com.DTO;
 
-import com.entity.Issues;
-import com.entity.ProjectUser;
-import com.entity.Projects;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class ProjectCreateDTO {

@@ -1,12 +1,7 @@
 package com.DTO;
 
 import com.entity.Users;
-import com.entity.Projects;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
-import java.util.Date;
 
 @Data
 public class AuthenticationBean {
@@ -17,7 +12,7 @@ public class AuthenticationBean {
 
     public AuthenticationBean(Users user_login) {
         this.username = user_login.getUsername();
-        this.role= user_login.getRole().substring(5);
+        this.role= user_login.getRole().name().substring(5);
         this.avatar= user_login.getAvatar();
 
     }

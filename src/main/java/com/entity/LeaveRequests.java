@@ -2,16 +2,11 @@ package com.entity;
 
 import com.dto.LeaveRequestDTO;
 import com.entity.enums.REQUEST_STATUS;
-import com.entity.enums.UNIT_TYPE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.service.LeaveRequestService;
-import com.service.RequestTypeService;
-import com.service.UsersService;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.text.ParseException;

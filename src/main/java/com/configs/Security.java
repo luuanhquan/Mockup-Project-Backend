@@ -70,7 +70,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UsersService userService;
-    
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

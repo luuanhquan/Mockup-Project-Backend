@@ -1,6 +1,5 @@
 package com.entity;
 
-import com.entity.enums.REQUEST_STATUS;
 import com.entity.enums.UNIT_TYPE;
 import lombok.AccessLevel;
 import lombok.Data;
