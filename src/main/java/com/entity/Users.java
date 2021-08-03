@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.dto.UserDTO;
+import com.DTO.UserDTO;
 import com.enums.ACTIVE_STATUS;
 import com.enums.USER_ROLE;
 import com.enums.USER_TYPE;
@@ -16,6 +16,7 @@ import java.util.Date;
 @Entity
 @Data
 @Builder
+@Table(name = "USERS")
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -132,5 +133,7 @@ public class Users {
     private Date getDate(String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(date);
     }
+
+
 
 }

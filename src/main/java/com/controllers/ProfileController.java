@@ -1,7 +1,8 @@
 package com.controllers;
 
 
-import com.dto.UserDTO;
+import com.DTO.UserDTO;
+//import com.dto.UserDTO;
 import com.entity.Users;
 import com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;

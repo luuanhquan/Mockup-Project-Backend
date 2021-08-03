@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
-@Transactional
 public class UsersService implements UserDetailsService {
 
     @Autowired

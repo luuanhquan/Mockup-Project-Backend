@@ -1,19 +1,13 @@
-package com.dto;
+package com.DTO;
 
 
 import com.entity.Users;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Component
 public class UserDTO {
     private String username;
     private String firstname;
@@ -27,13 +21,13 @@ public class UserDTO {
     private String phone;
     private String email;
     private String hometown;
-    private long personalid;
+    private Long personalid;
     private String education;
     private String school;
     private String major;
 
-    public UserDTO loadFromEntity(Users users) {
 
+    public UserDTO loadFromEntity(Users users) {
         this.username = users.getUsername();
         this.firstname = users.getFirstname();
         this.middlename = users.getMiddlename();

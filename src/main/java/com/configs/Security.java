@@ -93,14 +93,17 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().disable();
+//        http.httpBasic().disable();
+//        http.cors();
+//        http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/forgot-password").permitAll()
+//
+//                .antMatchers("/user/**", "/report/**").hasAnyRole("ADMIN", "MANAGER")
+//
+//                .antMatchers("/project/**", "/report/**").hasAnyRole("ADMIN", "MANAGER", "PM")
+//
+//                .anyRequest().fullyAuthenticated().and().httpBasic();
         http.cors();
-        http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/forgot-password").permitAll()
-
-                .antMatchers("/user/**", "/report/**").hasAnyRole("ADMIN", "MANAGER")
-
-                .antMatchers("/project/**", "/report/**").hasAnyRole("ADMIN", "MANAGER", "PM")
-
-                .anyRequest().fullyAuthenticated().and().httpBasic();
+        http.csrf().disable();
+        http.authorizeRequests().anyRequest().permitAll();
     }
 }
