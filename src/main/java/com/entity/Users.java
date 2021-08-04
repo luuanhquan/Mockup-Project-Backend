@@ -84,6 +84,9 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
 
+//    public USER_ROLE getRole() {
+//        return USER_ROLE.valueOf(role);
+//    }
     public USER_ROLE getRole() {
         return USER_ROLE.valueOf(role);
     }

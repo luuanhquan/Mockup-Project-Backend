@@ -2,6 +2,7 @@ package com.controllers;
 
 import com.DTO.AuthenticationBean;
 import com.DTO.UserDTO;
+import com.DTO.UserDTOTest;
 import com.entity.CustomUserDetails;
 import com.entity.Users;
 import com.enums.ACTIVE_STATUS;
@@ -9,18 +10,22 @@ import com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UsersController {
 
-
+    @Autowired
+    private JavaMailSender sender;
     @Autowired
     public UsersService usersService;
 
@@ -33,11 +38,12 @@ public class UsersController {
     }
 
     @GetMapping("/all")
-    public List<UserDTO> getAllEmployees() {
+    public List<UserDTOTest> getAllEmployees() {
+
         List<Users> users = usersService.findAll();
-        List<UserDTO> usersDTOS = new ArrayList<>();
+        List<UserDTOTest> usersDTOS = new ArrayList<>();
         for (Users u : users) {
-            UserDTO DTO = new UserDTO();
+            UserDTOTest DTO = new UserDTOTest();
             DTO.loadFromEntity(u);
             usersDTOS.add(DTO);
         }
@@ -53,10 +59,35 @@ public class UsersController {
 
     @PostMapping("/add")
     public ResponseEntity<Users> addEmployee(@RequestBody Users users) {
+
         System.out.println(users);
         Users newEmployee = usersService.save(users);
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
+
+
     }
+    public void test(){
+         System.out.println("aaaa");
+
+    }
+
+//Send mail
+//    public String sendMail() {
+//        MimeMessage message = sender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message);
+//
+//        try {
+//            helper.setTo("phambachd30@gmail.com");
+//            helper.setText("Greetings :)");
+//            helper.setSubject("Mail From Spring Boot");
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//            return "Error while sending mail ..";
+//        }
+//        sender.send(message);
+//        return "Mail Sent Success!";
+//    }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Users> updateEmployee(@RequestBody Users users, @PathVariable("id") int id) {
