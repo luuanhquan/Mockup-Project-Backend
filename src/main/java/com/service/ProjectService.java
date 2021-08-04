@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectService {
 
     @Autowired
     ProjectRepository projectRepository;
+
 
     public List<Projects> findAll() {
         return projectRepository.findAll();
@@ -38,4 +40,11 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
+    public Optional<Projects> findById(Integer id) {
+        return projectRepository.findById(id);
+    }
+
+    public void remove(Projects product) {
+        projectRepository.delete(product);
+    }
 }

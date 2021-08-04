@@ -7,13 +7,17 @@ import com.entity.Projects;
 import com.enums.ACTIVE_STATUS;
 import com.service.ProjectService;
 import com.utils.ObjectUtil;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.init.ResourceReader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,17 +41,18 @@ public class ProjectDetailController {
 
     //Tìm Project theo id
     @GetMapping("/view/{id}")
-    public ResponseEntity<Projects> getProjectById(@PathVariable("id") Integer id) {
+    public ResponseEntity getProjectById(@PathVariable("id") Integer id) {
         Projects project = projectService.findbyProjects(id);
-        if(ObjectUtil.isEmpty(projectService)) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(project, HttpStatus.OK);
+        if (ObjectUtil.isEmpty(project))
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(project, HttpStatus.OK);
     }
 
 
     //Thêm Project
     @PostMapping("/create")
     public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
-        if(ObjectUtil.isEmpty(projectsDTO)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        if (ObjectUtil.isEmpty(projectsDTO)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         Projects project = new Projects().loadFromDTO(projectsDTO);
         projectService.addProject(project);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -69,6 +74,20 @@ public class ProjectDetailController {
         if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
         project.setStatus(ACTIVE_STATUS.INACTIVE);
         projectService.updateProject(project);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new String("Thành công"),HttpStatus.OK);
     }
+
+    //delete cách 2
+//    @DeleteMapping( "/delete/{id}")
+//    public ResponseEntity<Projects> deleteProject(
+//            @PathVariable("id") Integer id) {
+//        Optional<Projects> projects = projectService.findById(id);
+//        if (!projects.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        projectService.remove(projects.get());
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+
+
 }
