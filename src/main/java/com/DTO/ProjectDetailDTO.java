@@ -34,7 +34,6 @@ public class ProjectDetailDTO {
         this.totalIssues = projects.getIssueList().size();
         List<ProjectUser> list = (List<ProjectUser>) projects.getProjectUserList();
         this.totalMember = list.size();
-//        this.listMember = list.stream().map(projectUser -> projectUser.getUsers()).collect(Collectors.toList());
         listMember = new ArrayList<>();
         for (ProjectUser p : list) {
             listMember.add(p.getUsers());

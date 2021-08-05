@@ -50,14 +50,14 @@ public class Projects {
     private Collection<Reports> reportList;
 
     public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf((int) status);
+        return ACTIVE_STATUS.valueOf(status);
     }
 
     public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
 
-    public Projects loadFromDTO(ProjectDetailDTO dto) throws ParseException {
+    public Projects loadFromDTODetail(ProjectDetailDTO dto) throws ParseException {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.dateStated = this.getDate(dto.getDateStated());
@@ -66,12 +66,11 @@ public class Projects {
         return this;
     }
 
-    public Projects loadFromDTO(ProjectCreateDTO dto) throws ParseException {
+    public Projects loadFromDTOCreate(ProjectCreateDTO dto) throws ParseException {
         this.name = dto.getName();
-        this.description = dto.getDes();
+        this.description = dto.getDescription();
         this.dateStated = dto.getDate_start();
         this.dateEnded = dto.getDate_end();
-        this.status = ACTIVE_STATUS.valueOf(dto.getStatus()).value;
         return this;
     }
 

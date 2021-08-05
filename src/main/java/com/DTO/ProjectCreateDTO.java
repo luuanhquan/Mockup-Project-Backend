@@ -7,10 +7,9 @@ import java.util.Date;
 @Data
 public class ProjectCreateDTO {
     String name;
-    String des;
+    String description;
     Date date_start;
     Date date_end;
-    String status;
 }
 
 
