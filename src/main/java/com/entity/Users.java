@@ -133,4 +133,11 @@ public class Users {
         return new SimpleDateFormat("dd/MM/yyyy").parse(date);
     }
 
+    public Users loadFromDTO2(UserDTO dto){
+        this.setUsername(dto.getUsername());
+        this.setEmail(dto.getEmail());
+        this.setPassword(dto.getPassword());
+        this.setPhone(dto.getPhone());
+        return this;
+    }
 }

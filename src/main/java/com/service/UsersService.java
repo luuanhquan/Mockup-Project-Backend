@@ -27,7 +27,7 @@ public class UsersService implements UserDetailsService {
     PasswordEncoder passwordEncoder;
 
     public Users save(Users s) {
-        return (Users) repository.findAll();
+        return repository.save(s);
     }
 
     public List<Users> findAll() {
@@ -42,31 +42,26 @@ public class UsersService implements UserDetailsService {
         return repository.findById(id);
     }
 
-    public STATUS_REGISTER registerNewUser(Users users) {
-        try {
+    public Boolean checkDuplicate(Users users) {
+
             // check existed user-----------------------------------------
             if (findByUsername(users.getUsername()) != null) {
-                return STATUS_REGISTER.Existed_Username;
+                return true;
             }
             // check existed mail-----------------------------------------
             if (findUserByEmail(users.getEmail()) != null) {
-                return STATUS_REGISTER.Existed_Email;
+                return true;
             }
 
-            // save user--------------------------------------------
-            repository.save(users);
 
-            return STATUS_REGISTER.Success;
-        } catch (Exception ex) {
-            return STATUS_REGISTER.Error_OnSystem;
-        }
+            return false;
+
     }
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?
-        Users user = repository.findByUsername(username).get(0);
-        System.out.println(user);
+        Users user = repository.findByUsername(username).orElse(null);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -75,16 +70,13 @@ public class UsersService implements UserDetailsService {
     }
 
     public Users findByUsername(String username) {
-        return repository.findByUsername(username).get(0);
+        return repository.findByUsername(username).orElse(null);
     }
 
-    public Users registerNewUserAccount(Users account) {
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        return repository.save(account);
-    }
+
 
     public Users findUserByEmail(String email) {
-        return StreamSupport.stream(repository.findByEmail(email).spliterator(), false).findFirst().orElse(null);
+        return repository.findByEmail(email).orElse(null);
     }
 
     public Users getUserLogin(){

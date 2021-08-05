@@ -101,6 +101,10 @@ public class Security extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/project/**", "/report/**").hasAnyRole("ADMIN", "MANAGER", "PM")
 
+                .antMatchers("/leaverequest/**").permitAll()
+
+                .antMatchers("/register/**").permitAll()
+
                 .anyRequest().fullyAuthenticated().and().httpBasic();
     }
 }

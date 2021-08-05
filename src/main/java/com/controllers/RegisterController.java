@@ -1,11 +1,14 @@
 package com.controllers;
 
 import com.entity.Users;
-import com.enums.STATUS_REGISTER;
 import com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
 
 @Controller
 public class RegisterController {
@@ -13,13 +16,13 @@ public class RegisterController {
     @Autowired
     private UsersService usersService;
 
-    @PostMapping(path = "/register")
-    public String registerNewUser(@RequestBody Users users) {
-        STATUS_REGISTER statusRegister = usersService.registerNewUser(users);
-        if (statusRegister.equals(STATUS_REGISTER.Error_OnSystem)) {
-            return "redirect:/register?error-system";
+    @PostMapping(path = "/register", produces = "application/json")
+    public ResponseEntity registerNewUser(@RequestBody com.dto.UserDTO userDTO) throws ParseException {
+        Users users = new Users().loadFromDTO2(userDTO);
+        if (usersService.checkDuplicate(users)) {
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-        return "redirect:/login";//viết lại
+        usersService.save(users);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }
