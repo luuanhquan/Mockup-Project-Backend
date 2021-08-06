@@ -47,17 +47,7 @@ public class ProjectDetailController {
         return new ResponseEntity(project, HttpStatus.OK);
     }
 
-
-    //Thêm Project
-//    @PostMapping("/create")
-//    public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
-//        System.out.println(projectsDTO);
-//        if (ObjectUtil.isEmpty(projectsDTO)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        Projects project = new Projects().loadFromDTOCreate(projectsDTO);
-//        projectService.addProject(project);
-//        return new ResponseEntity<>(null, HttpStatus.CREATED);
-//    }
-
+    //Thêm mới Project
     @PostMapping("/create")
     public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
         System.out.println(projectsDTO);
@@ -69,11 +59,19 @@ public class ProjectDetailController {
     }
 
     //update project
+//    @PutMapping(value = "/update/{id}", produces = "application/json")
+//    public ResponseEntity ReadProject(@RequestBody ProjectDetailDTO projectDetailDTO, @PathVariable("id") int id) throws ParseException {
+//        Projects project = projectService.findbyProjects(id);
+//        if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+//        projectService.updateProject(project.loadFromDTODetail(projectDetailDTO));
+//        return new ResponseEntity(null, HttpStatus.OK);
+//    }
+
     @PutMapping(value = "/update/{id}", produces = "application/json")
-    public ResponseEntity ReadProject(@RequestBody ProjectDetailDTO projectDetailDTO, @PathVariable("id") int id) throws ParseException {
+    public ResponseEntity ReadProject(@RequestBody ProjectCreateDTO projectUpdateDTO, @PathVariable("id") int id) throws ParseException {
         Projects project = projectService.findbyProjects(id);
         if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        projectService.updateProject(project.loadFromDTODetail(projectDetailDTO));
+        projectService.updateProject(project.loadFromDTOCreate(projectUpdateDTO));
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
@@ -84,7 +82,7 @@ public class ProjectDetailController {
         if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
         project.setStatus(ACTIVE_STATUS.INACTIVE);
         projectService.updateProject(project);
-        return new ResponseEntity<>(new String("Thành công"),HttpStatus.OK);
+        return new ResponseEntity<>(new String("Thành công"), HttpStatus.OK);
     }
 
     //delete cách 2
