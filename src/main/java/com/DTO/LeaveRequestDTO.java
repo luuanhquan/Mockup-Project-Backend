@@ -1,4 +1,4 @@
-package com.dto;
+package com.DTO;
 
 import com.entity.LeaveRequests;
 import lombok.AllArgsConstructor;
@@ -28,9 +28,8 @@ public class LeaveRequestDTO {
     public LeaveRequestDTO loadFromEntity(LeaveRequests requests) {
         this.id = requests.getId();
         this.userRequested = requests.getUserRequested().getUsername();
-        this.userApproved = requests.getUserApproved().getUsername();
         this.dateRequested = formatDate(requests.getDateRequested());
-        this.dateApproved = formatDate(requests.getDateApproved());
+        if(requests.getDateApproved()!=null)this.dateApproved = formatDate(requests.getDateApproved());
         this.duration = requests.getDuration();
         this.unit = requests.getRequestType().getUnit().name();
         this.type = requests.getRequestType().getName();

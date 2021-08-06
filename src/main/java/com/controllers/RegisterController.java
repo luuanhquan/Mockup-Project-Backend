@@ -17,7 +17,7 @@ public class RegisterController {
     private UsersService usersService;
 
     @PostMapping(path = "/register", produces = "application/json")
-    public ResponseEntity registerNewUser(@RequestBody com.dto.UserDTO userDTO) throws ParseException {
+    public ResponseEntity registerNewUser(@RequestBody com.DTO.UserDTO userDTO) throws ParseException {
         Users users = new Users().loadFromDTO2(userDTO);
         if (usersService.checkDuplicate(users)) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);

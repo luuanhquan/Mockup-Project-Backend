@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.dto.LeaveRequestDTO;
+import com.DTO.LeaveRequestDTO;
 import com.enums.REQUEST_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
@@ -61,7 +61,7 @@ public class LeaveRequests {
     }
 
     public LeaveRequests loadFromDTO(LeaveRequestDTO dto) throws ParseException {
-        this.dateRequested = this.getDate(dto.getDateRequested());
+        this.dateRequested = this.getDate2(dto.getDateRequested());
         this.duration = dto.getDuration();
         return this;
     }
@@ -69,6 +69,10 @@ public class LeaveRequests {
 
     private Date getDate(String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+    }
+
+    private Date getDate2(String date2) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd").parse(date2);
     }
 
 

@@ -1,6 +1,6 @@
 package com.entity;
 
-import com.dto.UserDTO;
+import com.DTO.UserDTO;
 import com.enums.ACTIVE_STATUS;
 import com.enums.USER_ROLE;
 import com.enums.USER_TYPE;
@@ -127,7 +127,9 @@ public class Users {
         this.major = dto.getMajor();
         return this;
     }
-
+    private  Date getDate2(String date2) throws  ParseException{
+        return  new SimpleDateFormat("yyyy-MM-dd").parse(date2);
+    }
 
     private Date getDate(String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(date);
