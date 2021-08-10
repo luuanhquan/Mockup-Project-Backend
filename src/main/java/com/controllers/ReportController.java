@@ -2,18 +2,14 @@ package com.controllers;
 
 
 import com.DTO.ReportsDTO;
-import com.entity.CustomUserDetails;
 import com.entity.Reports;
-import com.entity.Users;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +49,7 @@ public class ReportController {
     }
 
     @GetMapping("/view/{id}")
-    public ReportsDTO viewReport(){
+    public ReportsDTO viewReport() {
         return null;
     }
 

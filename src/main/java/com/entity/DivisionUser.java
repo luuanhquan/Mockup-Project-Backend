@@ -1,18 +1,17 @@
 package com.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "Division_USER", schema = "TEAM1", catalog = "")
+@Table(name = "User_Division", schema = "TEAM1", catalog = "")
 public class DivisionUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

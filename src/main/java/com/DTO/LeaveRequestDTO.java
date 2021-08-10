@@ -1,4 +1,4 @@
-package com.dto;
+package com.DTO;
 
 import com.entity.LeaveRequests;
 import lombok.AllArgsConstructor;

@@ -5,9 +5,7 @@ import com.enums.REPORT_TYPE;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.service.ProjectService;
 import com.service.UsersService;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -17,7 +15,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "REPORTS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Reports {

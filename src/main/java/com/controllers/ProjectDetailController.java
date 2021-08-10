@@ -39,7 +39,7 @@ public class ProjectDetailController {
     @GetMapping("/view/{id}")
     public ResponseEntity<Projects> getProjectById(@PathVariable("id") Integer id) {
         Projects project = projectService.findbyProjects(id);
-        if(ObjectUtil.isEmpty(projectService)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (ObjectUtil.isEmpty(projectService)) return new ResponseEntity(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
@@ -47,7 +47,7 @@ public class ProjectDetailController {
     //Thêm Project
     @PostMapping("/create")
     public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
-        if(ObjectUtil.isEmpty(projectsDTO)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        if (ObjectUtil.isEmpty(projectsDTO)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         Projects project = new Projects().loadFromDTO(projectsDTO);
         projectService.addProject(project);
         return new ResponseEntity<>(HttpStatus.CREATED);

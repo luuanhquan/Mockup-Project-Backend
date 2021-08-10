@@ -49,16 +49,21 @@
 
 package com.configs;
 
+import com.configs.jwt.JwtAuthentication;
+import com.configs.jwt.JwtRequestFilter;
 import com.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -69,8 +74,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class Security extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UsersService userService;
+    private UsersService userService;
 
+    @Autowired
+    private JwtAuthentication jwtAuthentication;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception{
+        return super.authenticationManagerBean();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -78,12 +93,12 @@ public class Security extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    protected CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
+//    @Bean
+//    protected CorsConfigurationSource corsConfigurationSource() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+//        return source;
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -93,14 +108,23 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().disable();
         http.cors();
-        http.csrf().disable().authorizeRequests().antMatchers("/", "/home", "/forgot-password").permitAll()
+        http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/auth", "/", "/home", "/forgot-password")
+                .permitAll()
 
-                .antMatchers("/user/**", "/report/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/user/**", "/report/**")
+                .hasAnyRole("ADMIN", "MANAGER")
 
-                .antMatchers("/project/**", "/report/**").hasAnyRole("ADMIN", "MANAGER", "PM")
+                .antMatchers("/project/**", "/report/**")
+                .hasAnyRole("ADMIN", "MANAGER", "PM")
 
-                .anyRequest().fullyAuthenticated().and().httpBasic();
+                .anyRequest().fullyAuthenticated()
+                .and().httpBasic();
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
+
+
