@@ -22,7 +22,7 @@ public class ProjectDetailDTO {
     private List<Users> listMember;
     private long totalMember;
     private int totalIssues;
-    private List<IssueDTO> listIssues;
+    private List<IssueSummaryDTO> listIssues;
 
     public ProjectDetailDTO loadFromEntity(Projects projects) {
         this.id = projects.getId();
@@ -41,7 +41,7 @@ public class ProjectDetailDTO {
         listIssues = new ArrayList<>();
         for (Issues i : projects.getIssueList()) {
 
-            this.listIssues.add(new IssueDTO(i));
+            this.listIssues.add(new IssueSummaryDTO(i));
         }
         return this;
     }

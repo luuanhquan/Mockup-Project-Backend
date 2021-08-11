@@ -12,18 +12,16 @@ import java.util.regex.Pattern;
 
 @Service
 public class EmailService {
+    public static String FORGOT_SUBJECT = "RECOVERY EMAIL";
+    public static String FORGOT_BODY = "Please follow this link to recover your password:\n";
+    private static Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
     @Autowired
     private JavaMailSender javaMailSender;
-
-    private static Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
 
     private static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
-
-    public static String FORGOT_SUBJECT = "RECOVERY EMAIL";
-    public static String FORGOT_BODY = "Please follow this link to recover your password:\n";
 
     public void sendEmail(String email, EMAIL_TYPE type) {
         //validate email

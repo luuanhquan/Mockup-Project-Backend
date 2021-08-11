@@ -1,6 +1,5 @@
 package com.controllers;
 
-
 import com.DTO.ProjectCreateDTO;
 import com.DTO.ProjectDetailDTO;
 import com.entity.Projects;
@@ -30,72 +29,76 @@ public class ProjectDetailController {
         this.projectService = projectService;
     }
 
-    //tìm all Project
+    // tìm all Project
     @GetMapping("/list")
     public List<ProjectDetailDTO> getAllProject() {
         List<Projects> projects = projectService.findAllActive();
-        List<ProjectDetailDTO> list = projects.stream().map(projectItem -> new ProjectDetailDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
+        List<ProjectDetailDTO> list = projects.stream()
+                .map(projectItem -> new ProjectDetailDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
         return list;
     }
 
-    //Tìm Project theo id
+    // Tìm Project theo id
     @GetMapping("{id}")
     public ResponseEntity getProjectById(@PathVariable("id") Integer id) {
         Projects project = projectService.findbyProjects(id);
-        if (ObjectUtil.isEmpty(project))
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        return new ResponseEntity(project, HttpStatus.OK);
+        if (ObjectUtil.isEmpty(projectService))
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
-    //Thêm mới Project
+    // Thêm mới Project
     @PostMapping("/create")
     public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
-        System.out.println(projectsDTO);
-        if (ObjectUtil.isEmpty(projectsDTO)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        Projects project = new Projects().loadFromDTOCreate(projectsDTO);
-        project.setStatus(ACTIVE_STATUS.ACTIVE);
+        if (ObjectUtil.isEmpty(projectsDTO))
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        Projects project = new Projects().loadFromDTO(projectsDTO);
         projectService.addProject(project);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    //update project
-//    @PutMapping(value = "/update/{id}", produces = "application/json")
-//    public ResponseEntity ReadProject(@RequestBody ProjectDetailDTO projectDetailDTO, @PathVariable("id") int id) throws ParseException {
-//        Projects project = projectService.findbyProjects(id);
-//        if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
-//        projectService.updateProject(project.loadFromDTODetail(projectDetailDTO));
-//        return new ResponseEntity(null, HttpStatus.OK);
-//    }
+    // update project
+    // @PutMapping(value = "/update/{id}", produces = "application/json")
+    // public ResponseEntity ReadProject(@RequestBody ProjectDetailDTO
+    // projectDetailDTO, @PathVariable("id") int id) throws ParseException {
+    // Projects project = projectService.findbyProjects(id);
+    // if (ObjectUtil.isEmpty(project)) return new
+    // ResponseEntity(HttpStatus.NOT_FOUND);
+    // projectService.updateProject(project.loadFromDTODetail(projectDetailDTO));
+    // return new ResponseEntity(null, HttpStatus.OK);
+    // }
 
     @PutMapping(value = "/update/{id}", produces = "application/json")
-    public ResponseEntity ReadProject(@RequestBody ProjectCreateDTO projectUpdateDTO, @PathVariable("id") int id) throws ParseException {
+    public ResponseEntity ReadProject(@RequestBody ProjectCreateDTO projectUpdateDTO, @PathVariable("id") int id)
+            throws ParseException {
         Projects project = projectService.findbyProjects(id);
-        if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (ObjectUtil.isEmpty(project))
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         projectService.updateProject(project.loadFromDTOCreate(projectUpdateDTO));
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
-    //Xóa Project theo id
+    // Xóa Project theo id
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProject(@PathVariable("id") Integer id) {
         Projects project = projectService.findbyProjects(id);
-        if (ObjectUtil.isEmpty(project)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (ObjectUtil.isEmpty(project))
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         project.setStatus(ACTIVE_STATUS.INACTIVE);
         projectService.updateProject(project);
         return new ResponseEntity<>(new String("Thành công"), HttpStatus.OK);
     }
 
-    //delete cách 2
-//    @DeleteMapping( "/delete/{id}")
-//    public ResponseEntity<Projects> deleteProject(
-//            @PathVariable("id") Integer id) {
-//        Optional<Projects> projects = projectService.findById(id);
-//        if (!projects.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        projectService.remove(projects.get());
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
+    // delete cách 2
+    // @DeleteMapping( "/delete/{id}")
+    // public ResponseEntity<Projects> deleteProject(
+    // @PathVariable("id") Integer id) {
+    // Optional<Projects> projects = projectService.findById(id);
+    // if (!projects.isPresent()) {
+    // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // }
+    // projectService.remove(projects.get());
+    // return new ResponseEntity<>(HttpStatus.OK);
+    // }
 
 }

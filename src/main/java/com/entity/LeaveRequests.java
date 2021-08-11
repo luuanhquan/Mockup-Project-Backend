@@ -1,11 +1,9 @@
 package com.entity;
 
-import com.dto.LeaveRequestDTO;
+import com.DTO.LeaveRequestDTO;
 import com.enums.REQUEST_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -14,10 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "LEAVE_REQUESTS", schema = "TEAM1", catalog = "")
+@Table(name = "LEAVE_REQUESTS", schema = "TEAM1")
 public class LeaveRequests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

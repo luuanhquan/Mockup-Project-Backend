@@ -2,16 +2,18 @@ package com.entity;
 
 import com.enums.ISSUE_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Issues {
@@ -40,9 +42,18 @@ public class Issues {
     @JoinColumn(name = "PARENT_ISSUE", referencedColumnName = "ID")
     private Issues parent;
     @OneToMany(mappedBy = "parent")
-    private Collection<Issues> issueList;
+    private List<Issues> issueList;
     @OneToMany(mappedBy = "issue")
-    private Collection<IssueChangeLog> issueChangeLogList;
+    private List<IssueChangeLog> issueChangeLogList;
+    public List<IssueChangeLog> getIssueChangeLogList() {
+        return issueChangeLogList.stream().sorted(new Comparator<IssueChangeLog>() {
+            @Override
+            public int compare(IssueChangeLog o1, IssueChangeLog o2) {
+                return o2.getId()-o1.getId();
+            }
+        }).collect(Collectors.toList());
+    }
+
     @OneToMany(mappedBy = "issue")
     private Collection<TimeLog> timeLogList;
 
@@ -52,6 +63,11 @@ public class Issues {
 
     public void setStatus(ISSUE_STATUS status) {
         this.status = status.value;
+    }
+
+    @Override
+    public String toString(){
+        return this.id.toString();
     }
 
 }

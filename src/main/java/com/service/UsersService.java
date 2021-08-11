@@ -65,7 +65,7 @@ public class UsersService implements UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?
-        Users user = repository.findByUsername(username).get(0);
+        Users user = repository.findByUsername(username);
         System.out.println(user);
         if (user == null) {
             throw new UsernameNotFoundException(username);
@@ -75,7 +75,7 @@ public class UsersService implements UserDetailsService {
     }
 
     public Users findByUsername(String username) {
-        return repository.findByUsername(username).get(0);
+        return repository.findByUsername(username);
     }
 
     public Users registerNewUserAccount(Users account) {
@@ -87,8 +87,9 @@ public class UsersService implements UserDetailsService {
         return StreamSupport.stream(repository.findByEmail(email).spliterator(), false).findFirst().orElse(null);
     }
 
-    public Users getUserLogin(){
-        CustomUserDetails login= (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Users getUserLogin() {
+        CustomUserDetails login = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return login.getUser();
     }
+
 }

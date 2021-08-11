@@ -1,7 +1,7 @@
 package com.controllers;
 
 
-import com.dto.LeaveRequestDTO;
+import com.DTO.LeaveRequestDTO;
 import com.entity.LeaveRequests;
 import com.enums.REQUEST_STATUS;
 import com.service.LeaveRequestService;

@@ -3,9 +3,7 @@ package com.entity;
 import com.DTO.ProjectCreateDTO;
 import com.DTO.ProjectDetailDTO;
 import com.enums.ACTIVE_STATUS;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -16,7 +14,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "PROJECTS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Projects {
