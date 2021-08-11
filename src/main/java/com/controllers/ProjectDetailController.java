@@ -39,11 +39,11 @@ public class ProjectDetailController {
     }
 
     //Tìm Project theo id
-    @GetMapping("/view/{id}")
+    @GetMapping("{id}")
     public ResponseEntity getProjectById(@PathVariable("id") Integer id) {
         Projects project = projectService.findbyProjects(id);
         if (ObjectUtil.isEmpty(project))
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         return new ResponseEntity(project, HttpStatus.OK);
     }
 
