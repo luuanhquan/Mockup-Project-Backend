@@ -1,20 +1,20 @@
 package com.entity;
 
-import com.enums.ACTIVE_STATUS;
+import com.enums.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "ISSUE_CHANGE_LOG", schema = "TEAM1", catalog = "")
+@Table(name = "ISSUE_CHANGE_LOG", schema = "TEAM1")
 public class IssueChangeLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,19 +31,47 @@ public class IssueChangeLog {
     @Column(name = "DATE_DUE")
     private Date dateDue;
     @Column(name = "TYPE")
-    private Date type;
+    private int type;
+    public ISSUE_TYPE getType() {
+        return ISSUE_TYPE.valueOf(type);
+    }
+
+    public void setType(ISSUE_TYPE type) {
+        this.type = type.value;
+    }
     @Column(name = "TARGET")
-    private Date target;
+    private int target;
+    public ISSUE_TARGET getTarget() {
+        return ISSUE_TARGET.valueOf( target);
+    }
+
+    public void setTarget(ISSUE_TARGET target) {
+        this.target = target.value;
+    }
     @Column(name = "PRIORITY")
-    private Date priority;
+    private int priority;
+    public ISSUE_PRIORITY getPriority() {
+        return ISSUE_PRIORITY.valueOf( priority);
+    }
+
+    public void setPriority(ISSUE_PRIORITY priority) {
+        this.priority = priority.value;
+    }
     @Column(name = "PROCESS")
-    private Date process;
+    private int process;
     @Column(name = "SOLUTION")
     private String solution;
     @Column(name = "TIMESPEND")
     private Long timespend;
     @Column(name = "STATUS")
-    private long status;
+    private int status;
+    public ISSUE_STATUS getStatus() {
+        return ISSUE_STATUS.valueOf( status);
+    }
+
+    public void setStatus(ISSUE_STATUS status) {
+        this.status = status.value;
+    }
     @Column(name = "COMMENTS")
     private String comments;
     @ManyToOne
@@ -55,11 +83,7 @@ public class IssueChangeLog {
     @JoinColumn(name = "USER_MODIFIED", referencedColumnName = "ID", nullable = false)
     private Users users;
 
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf((int) status);
-    }
-
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
+    public String toString(){
+        return this.id.toString();
     }
 }

@@ -2,7 +2,9 @@ package com.service;
 
 import com.entity.IssueChangeLog;
 import com.repositories.IssueChangeLogRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,5 +33,8 @@ public class IssueChangeLogService {
 
     public Optional<IssueChangeLog> findById(Integer id) {
         return repository.findById(id);
+    }
+
+    public List<IssueChangeLog> findByIssueId(int id) { return repository.findByIssueId(id);
     }
 }

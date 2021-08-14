@@ -1,16 +1,15 @@
 package com.entity;
 
 import com.enums.UNIT_TYPE;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "REQUEST_TYPE", schema = "TEAM1", catalog = "")

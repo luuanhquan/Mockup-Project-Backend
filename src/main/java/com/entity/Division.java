@@ -1,6 +1,7 @@
 package com.entity;
 
 import com.enums.ACTIVE_STATUS;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,7 +9,8 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,9 @@ public class Division {
     private long status;
     @OneToMany(mappedBy = "division")
     private Collection<DivisionProject> divisionProjectsList;
+
+
+
 
     public ACTIVE_STATUS getStatus() {
         return ACTIVE_STATUS.valueOf((int) status);
