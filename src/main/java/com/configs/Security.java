@@ -115,10 +115,10 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .antMatchers("/user/**", "/report/**")
-                .hasAnyRole("ADMIN", "MANAGER")
+                .hasAnyAuthority("ADMIN", "MANAGER")
 
                 .antMatchers("/project/**", "/report/**")
-                .hasAnyRole("ADMIN", "MANAGER", "PM")
+                .hasAnyAuthority("ADMIN", "MANAGER", "PM")
 
                 .anyRequest().fullyAuthenticated()
                 .and().httpBasic();
