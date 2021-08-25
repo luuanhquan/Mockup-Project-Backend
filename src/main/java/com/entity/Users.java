@@ -84,11 +84,11 @@ public class Users {
     private Collection<Reports> reportsList;
     @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
-    private DivisionUser divisionUser;
+//
+//    @ManyToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
+//    private DivisionUser divisionUser;
 
 
 

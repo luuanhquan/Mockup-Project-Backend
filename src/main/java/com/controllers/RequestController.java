@@ -7,74 +7,93 @@ import com.enums.REQUEST_STATUS;
 import com.service.LeaveRequestService;
 import com.service.RequestTypeService;
 import com.service.UsersService;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
 @RestController
-//@RequestMapping("${spring.data.rest.base-path}/LeaveRequests")
-@RequestMapping("/leaverequest")
 public class RequestController {
-    private final LeaveRequestService leaveRequestService;
-    //them request
     @Autowired
-    UsersService usersService;
+    private    LeaveRequestService leaveRequestService;
     @Autowired
-    RequestTypeService requestTypeService;
-
+    private RequestTypeService requestTypeService;
     @Autowired
-    public RequestController(LeaveRequestService leaveRequestService) {
-        this.leaveRequestService = leaveRequestService;
-    }
-
-
-//xu ly appved
+    private UsersService usersService;
+//    //search Request
+//    @GetMapping(value = "/leaverequest/search")
+//    public ResponseEntity<List<LeaveRequestDTO>> searchProduct(@RequestParam("page") Integer page,
+//                                                               @RequestParam("size") Integer size,
+//                                                               @RequestParam("keyword") String keyword) {
+//        List<LeaveRequestDTO> list = leaveRequestService.searchRequestDisplay(keyword, page, size);
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
 
     //Lay  all request
-    @GetMapping("/list")
-    public List<LeaveRequestDTO> getAllLeaveRequests() {
-        List<LeaveRequests> leaveRequests = leaveRequestService.findAll();
+    @GetMapping(value = "/leaverequest")
+    public ResponseEntity<List<LeaveRequestDTO>> getAllLeaveRequests(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                        @RequestParam(value = "size", defaultValue = "5") Integer size
+    ) {
+        PageRequest request = PageRequest.of(page - 1, size);
+        List<LeaveRequests> leaveRequests;
+        leaveRequests = leaveRequestService.findAll(request);
         List<LeaveRequestDTO> list = leaveRequests.stream().map(leaveRequestsitem -> new LeaveRequestDTO().loadFromEntity(leaveRequestsitem)).collect(Collectors.toList());
-        return list;
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
-
-    @GetMapping("/find/{id}")
+    // Find id
+    @GetMapping("/leaverequest/find/{id}")
     public ResponseEntity<LeaveRequests> getRequestById(@PathVariable("id") Integer id) {
         LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
         return new ResponseEntity<>(leaveRequests, HttpStatus.OK);
     }
+    // Create Request
+    /*
+    @PostMapping(value = "/leaverequest/add", produces = "application/json")
 
-    @PutMapping(value = "/approve/{id}/{approve}", produces = "application/json")
-    public ResponseEntity<LeaveRequests> approve(@PathVariable("id") Integer id, @PathVariable("approve") boolean appove) throws ParseException {
-        LeaveRequests leaveRequest = leaveRequestService.findRequestById(id);
-        if (leaveRequest.getDateApproved() != null
-                || leaveRequest.getStatus() == REQUEST_STATUS.CANCELED)
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        leaveRequest.setUserApproved(usersService.getUserLogin());
-        leaveRequest.setDateApproved(new Date());
-        leaveRequest.setStatus(appove ? REQUEST_STATUS.APPROVE : REQUEST_STATUS.DENIED);
-        leaveRequestService.save(leaveRequest);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<LeaveRequests> addNewRequest(@RequestBody LeaveRequestDTO leaveRequestDTO, Authentication authentication) throws Exception {
+        LeaveRequests leaveRequests = leaveRequestService.save(leaveRequestDTO);
+//        boolean isMember = authentication.getAuthorities().contains(new SimpleGrantedAuthority("MEMBER"));
+//        if (isMember && !authentication.getName().equals(leaveRequests.getUserRequested())) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+        return ResponseEntity.ok(leaveRequests);
     }
-
-    @PostMapping(value = "/create", produces = "application/json")
+*/
+    @PostMapping(value = "leaverequest/add", produces = "application/json")
 
     public ResponseEntity<LeaveRequests> addNewRequest(@RequestBody LeaveRequestDTO leaveRequestDTO) throws ParseException {
         LeaveRequests leaveRequests = new LeaveRequests().loadFromDTO(leaveRequestDTO);
         leaveRequests.setDateCreated(new Date());
         leaveRequests.setRequestType(requestTypeService.findByName(leaveRequestDTO.getType()));
-        leaveRequests.setUserRequested(usersService.getUserLogin());
+//        leaveRequests.setUserRequested(usersService.getUserLogin());
         leaveRequests.setStatus(REQUEST_STATUS.PENDING);
 
         return new ResponseEntity<>(leaveRequestService.save(leaveRequests), HttpStatus.OK);
+    }
+    // Cancel Request
+    @PatchMapping("/leaverequest/cancel/{id}")
+    public ResponseEntity<LeaveRequests> cancel(@PathVariable("id") Integer id, Authentication authentication) {
+        LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
+        if (!authentication.getName().equals(leaveRequests.getUserRequested()) && authentication.getAuthorities().contains(new SimpleGrantedAuthority("MEMBER"))) {
 
-
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(leaveRequestService.cancel(id));
+    }
+    //  Approved request
+    @PutMapping(value = "/leaverequest/approve/{id}")
+    public ResponseEntity<LeaveRequests> approved(@PathVariable("id") Integer id, boolean approve ,Authentication authentication) {
+        LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
+        if (!authentication.getName().equals(leaveRequests.getUserRequested()) && authentication.getAuthorities().contains(new SimpleGrantedAuthority("PM, MANAGER"))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(leaveRequestService.approved(id,approve));
     }
 }

@@ -51,7 +51,8 @@ public class UserDTO {
         this.education = users.getEducation();
         this.school = users.getSchool();
         this.major = users.getMajor();
-        this.name = users.getDivisionUser().getDivision().getName();
+//
+
         return this;
 
     }
