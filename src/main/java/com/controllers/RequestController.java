@@ -72,9 +72,8 @@ public class RequestController {
         LeaveRequests leaveRequests = new LeaveRequests().loadFromDTO(leaveRequestDTO);
         leaveRequests.setDateCreated(new Date());
         leaveRequests.setRequestType(requestTypeService.findByName(leaveRequestDTO.getType()));
-//        leaveRequests.setUserRequested(usersService.getUserLogin());
+        leaveRequests.setUserRequested(usersService.getUserLogin());
         leaveRequests.setStatus(REQUEST_STATUS.PENDING);
-
         return new ResponseEntity<>(leaveRequestService.save(leaveRequests), HttpStatus.OK);
     }
     // Cancel Request
