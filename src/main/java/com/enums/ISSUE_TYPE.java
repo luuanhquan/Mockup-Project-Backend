@@ -3,7 +3,7 @@ package com.enums;
 public enum ISSUE_TYPE {
     BUG(0),
     REQUEST(1),
-    TASK(1);
+    TASK(2);
 
 
     public final int value;

@@ -1,5 +1,6 @@
 package com.service;
 
+import com.DTO.SimpleIssue;
 import com.entity.IssueChangeLog;
 import com.repositories.IssueChangeLogRepository;
 import com.sun.xml.internal.stream.Entity;
@@ -35,6 +36,6 @@ public class IssueChangeLogService {
         return repository.findById(id);
     }
 
-    public List<IssueChangeLog> findByIssueId(int id) { return repository.findByIssueId(id);
+    public List<SimpleIssue> findSubs(int id) { return repository.findSubs(id);
     }
 }

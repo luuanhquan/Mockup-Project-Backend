@@ -1,16 +1,13 @@
 package com.DTO;
 
 import com.entity.Issues;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class SimpleIssue {
-    int id;
+    Integer id;
     String name;
 
-    public SimpleIssue loadFromIssue(Issues issue) {
-        this.id = issue.getId();
-        this.name = issue.getIssueChangeLogList().get(0).getTitle();
-        return this;
-    }
 }

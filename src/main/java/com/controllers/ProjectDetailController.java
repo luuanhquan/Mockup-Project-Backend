@@ -6,10 +6,12 @@ import com.DTO.ProjectDetailDTO;
 import com.entity.Projects;
 import com.enums.ACTIVE_STATUS;
 import com.service.ProjectService;
+import com.service.UsersService;
 import com.utils.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -26,9 +28,12 @@ public class ProjectDetailController {
         this.projectService = projectService;
     }
 
+    @Autowired
+    UsersService usersService;
     //tìm all Project
     @GetMapping("/list")
     public List<ProjectDetailDTO> getAllProject() {
+        System.out.println(usersService.getUserLogin().getRole());
         List<Projects> projects = projectService.findAll();
         List<ProjectDetailDTO> list = projects.stream().map(projectItem -> new ProjectDetailDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
         return list;

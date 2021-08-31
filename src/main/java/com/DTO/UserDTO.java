@@ -32,27 +32,27 @@ public class UserDTO {
     private String school;
     private String major;
 
-    public UserDTO loadFromEntity(Users users) {
-
-        this.username = users.getUsername();
-        this.firstname = users.getFirstname();
-        this.middlename = users.getMiddlename();
-        this.lastname = users.getLastname();
-        this.avatar = users.getAvatar();
-        this.password = users.getPassword();
-        this.type = users.getType().name();
-        this.birthday = formatDate(users.getBirthday());
-        this.phone = users.getPhone();
-        this.email = users.getEmail();
-//        this.gender=users.getGener();
-        this.hometown = users.getHometown();
-        this.personalid = users.getPersonalid();
-        this.education = users.getEducation();
-        this.school = users.getSchool();
-        this.major = users.getMajor();
-        return this;
-
-    }
+//    public UserDTO loadFromEntity(Users users) {
+//
+//        this.username = users.getUsername();
+//        this.firstname = users.getFirstname();
+//        this.middlename = users.getMiddlename();
+//        this.lastname = users.getLastname();
+//        this.avatar = users.getAvatar();
+//        this.password = users.getPassword();
+//        this.type = users.getType().name();
+//        this.birthday = formatDate(users.getBirthday());
+//        this.phone = users.getPhone();
+//        this.email = users.getEmail();
+////        this.gender=users.getGener();
+//        this.hometown = users.getHometown();
+//        this.personalid = users.getPersonalid();
+//        this.education = users.getEducation();
+//        this.school = users.getSchool();
+//        this.major = users.getMajor();
+//        return this;
+//
+//    }
 
     private String formatDate(Date date) {
         return new SimpleDateFormat("dd/MM/yyyy").format(date);

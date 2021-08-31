@@ -1,5 +1,6 @@
 package com.service;
 
+import com.DTO.ChangePassRequest;
 import com.entity.CustomUserDetails;
 import com.entity.Users;
 import com.enums.STATUS_REGISTER;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +25,6 @@ public class UsersService implements UserDetailsService {
     @Autowired
     UsersRepository repository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     public Users save(Users s) {
         return (Users) repository.findAll();
@@ -78,18 +78,28 @@ public class UsersService implements UserDetailsService {
         return repository.findByUsername(username);
     }
 
-    public Users registerNewUserAccount(Users account) {
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        return repository.save(account);
+//    public Users registerNewUserAccount(Users account) {
+//        account.setPassword(passwordEncoder.encode(account.getPassword()));
+//        return repository.save(account);
+//    }
+
+    public Users findUserNameByEmail(String email) {
+        return StreamSupport.stream(repository.findByEmail(email).spliterator(), false).findFirst().orElse(null);
     }
 
-    public Users findUserByEmail(String email) {
-        return StreamSupport.stream(repository.findByEmail(email).spliterator(), false).findFirst().orElse(null);
+    public Users findUserByEmail(String email){
+        return repository.findUserByEmail(email);
     }
 
     public Users getUserLogin() {
         CustomUserDetails login = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return login.getUser();
     }
+    @Autowired
+    AES aes;
 
+    public void changePass(ChangePassRequest request) {
+        String key= aes.decrypt(request.getKey());
+        repository.changePass(Integer.valueOf(key.substring(12,key.length())),new BCryptPasswordEncoder().encode(request.getPassword()));
+    }
 }

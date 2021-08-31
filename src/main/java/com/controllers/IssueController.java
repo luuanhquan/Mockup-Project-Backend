@@ -24,8 +24,9 @@ public class IssueController {
 
     @GetMapping("/{id}")
     public ResponseEntity getIssue(@PathVariable("id")int issueId){
-        Issues issue = issueService.findById(issueId).orElse(null);
-        if (ObjectUtil.isEmpty(issue)) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(new IssueDTO().loadByIssue(issue), HttpStatus.OK);
+        IssueDTO issueDTO= issueService.findById(issueId);
+        if(ObjectUtil.isEmpty(issueDTO))
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        else return new ResponseEntity(issueDTO,HttpStatus.OK);
     }
 }

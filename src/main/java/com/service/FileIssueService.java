@@ -1,5 +1,6 @@
 package com.service;
 
+import com.DTO.FileDTO;
 import com.entity.FileIssue;
 import com.repositories.FileIssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,9 @@ public class FileIssueService {
 
     public Optional<FileIssue> findById(Integer id) {
         return repository.findById(id);
+    }
+
+    public List<FileDTO> findByIssueId(int id) {
+        return repository.findByIssueId(id);
     }
 }

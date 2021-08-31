@@ -1,4 +1,4 @@
-package com.entity;
+package com.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +14,11 @@ import java.util.Base64;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRequest implements Serializable {
-
-    private String username;
+public class ChangePassRequest implements Serializable {
+    private String key;
     private String password;
     public String getPassword(){
         return new String(Base64.getDecoder().decode(password));
     }
-
 }
+
