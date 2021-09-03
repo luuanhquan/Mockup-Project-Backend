@@ -51,15 +51,10 @@ public class UserController {
     }
     //Update Profile
     @PutMapping(value = "profile/update", produces = "application/json")
-//    public ResponseEntity<Users> updateProfile(@RequestBody UserDTO dto) throws ParseException {
-//        Users updateUser = new Users();
-//        updateUser.setUsername(usersService.getUserLogin().getUsername());
-//        updateUser.loadFromDTO(dto);
-//        return new ResponseEntity<>(usersService.save(updateUser), HttpStatus.OK);
-//    }
-    public ResponseEntity<Users> updateProfile(@RequestBody UserDTO dto) throws ParseException {
+
+    public ResponseEntity updateProfile(@RequestBody UserDTO dto) throws ParseException {
         Users users = usersService.update(dto);
-        return new ResponseEntity<>(users, HttpStatus.OK);}
+        return new ResponseEntity<>("Successs", HttpStatus.OK);}
 
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)

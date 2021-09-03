@@ -98,17 +98,20 @@ public class UsersService implements UserDetailsService {
 
 
     public Users update(UserDTO dto) throws ParseException {
-       Users updateUser =new Users();
-        updateUser.setUsername(getUserLogin().getUsername());
+       Users updateUser =repository.getById(dto.getId());
         updateUser.loadFromDTO(dto);
         return repository.save(updateUser);
     }
     public Users getUserLogin() {
-        CustomUserDetails login = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return login.getUser();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+           return  ((CustomUserDetails)principal).getUser();
+        } else {
+            return findByUsername(principal.toString());
+        }
+//        return login.getUser();
     }
-//diền gì cũng k nhân
-    // e thấy
+
 }
 
 
