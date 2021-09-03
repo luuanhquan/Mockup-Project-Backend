@@ -15,13 +15,14 @@ import java.util.Date;
 @Data
 @Component
 public class UserDTO {
-
+    private String username;
+    private Integer id;
     private String firstname;
     private String middlename;
     private String lastname;
     private String avatar;
-    private String password;
     private Boolean gender;
+    private String password;
     private String type;
     private String birthday;
     private String phone;
@@ -31,16 +32,16 @@ public class UserDTO {
     private String education;
     private String school;
     private String major;
-    private String name;   //division name
+
 
     public UserDTO loadFromEntity(Users users) {
-
-
+        this.username= users.getUsername();
+        this.id= users.getId();
         this.firstname = users.getFirstname();
         this.middlename = users.getMiddlename();
         this.lastname = users.getLastname();
         this.avatar = users.getAvatar();
-        this.password = users.getPassword();
+        this.password= users.getPassword();
         this.type = users.getType().name();
         this.birthday = formatDate(users.getBirthday());
         this.phone = users.getPhone();
@@ -51,8 +52,6 @@ public class UserDTO {
         this.education = users.getEducation();
         this.school = users.getSchool();
         this.major = users.getMajor();
-//
-
         return this;
 
     }

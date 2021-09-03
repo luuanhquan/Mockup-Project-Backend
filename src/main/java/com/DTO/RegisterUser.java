@@ -13,7 +13,6 @@ public class RegisterUser {
     @Size(min = 5, max = 52)
     private String username;
 
-
     @NotBlank
     @Size(min = 3, max = 52)
     private String email;
@@ -28,11 +27,4 @@ public class RegisterUser {
     @NotBlank
     @Size(min = 10, max = 52)
     private String phone;
-
-
-    @NotBlank
-    @Size(min = 10, max = 52)
-    private String division_name;
-
-
 }

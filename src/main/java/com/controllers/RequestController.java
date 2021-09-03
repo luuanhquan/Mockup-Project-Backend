@@ -37,7 +37,7 @@ public class RequestController {
 //    }
 
     //Lay  all request
-    @GetMapping(value = "/leaverequest")
+    @GetMapping(value = "/request")
     public ResponseEntity<List<LeaveRequestDTO>> getAllLeaveRequests(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                         @RequestParam(value = "size", defaultValue = "5") Integer size
     ) {
@@ -48,12 +48,12 @@ public class RequestController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
     // Find id
-    @GetMapping("/leaverequest/find/{id}")
+    @GetMapping("/request/find/{id}")
     public ResponseEntity<LeaveRequests> getRequestById(@PathVariable("id") Integer id) {
         LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
         return new ResponseEntity<>(leaveRequests, HttpStatus.OK);
     }
-    // Create Request
+
     /*
     @PostMapping(value = "/leaverequest/add", produces = "application/json")
 
@@ -66,34 +66,43 @@ public class RequestController {
         return ResponseEntity.ok(leaveRequests);
     }
 */
-    @PostMapping(value = "leaverequest/add", produces = "application/json")
+    // Create Request
+    @PostMapping(value = "request/add", produces = "application/json")
 
     public ResponseEntity<LeaveRequests> addNewRequest(@RequestBody LeaveRequestDTO leaveRequestDTO) throws ParseException {
         LeaveRequests leaveRequests = new LeaveRequests().loadFromDTO(leaveRequestDTO);
         leaveRequests.setDateCreated(new Date());
         leaveRequests.setRequestType(requestTypeService.findByName(leaveRequestDTO.getType()));
-//        leaveRequests.setUserRequested(usersService.getUserLogin());
+        leaveRequests.setUserRequested(usersService.getUserLogin());
         leaveRequests.setStatus(REQUEST_STATUS.PENDING);
+        return new ResponseEntity<>(leaveRequestService.save(leaveRequests) ,HttpStatus.CREATED);
 
-        return new ResponseEntity<>(leaveRequestService.save(leaveRequests), HttpStatus.OK);
     }
     // Cancel Request
-    @PatchMapping("/leaverequest/cancel/{id}")
+    @PatchMapping("/request/cancel/{id}")
     public ResponseEntity<LeaveRequests> cancel(@PathVariable("id") Integer id, Authentication authentication) {
         LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
         if (!authentication.getName().equals(leaveRequests.getUserRequested()) && authentication.getAuthorities().contains(new SimpleGrantedAuthority("MEMBER"))) {
-
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.ok(leaveRequestService.cancel(id));
     }
     //  Approved request
-    @PutMapping(value = "/leaverequest/approve/{id}")
-    public ResponseEntity<LeaveRequests> approved(@PathVariable("id") Integer id, boolean approve ,Authentication authentication) {
+    @PutMapping(value = "/request/approved/{id}")
+    public ResponseEntity<LeaveRequests> approved(@PathVariable("id") Integer id, Authentication authentication) {
         LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
         if (!authentication.getName().equals(leaveRequests.getUserRequested()) && authentication.getAuthorities().contains(new SimpleGrantedAuthority("PM, MANAGER"))) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(leaveRequestService.approved(id,approve));
+        return ResponseEntity.ok(leaveRequestService.approved(id));
+    }
+    //  Denied request
+    @PutMapping(value = "/request/denied/{id}")
+    public ResponseEntity<LeaveRequests> denied(@PathVariable("id") Integer id, Authentication authentication) {
+        LeaveRequests leaveRequests = leaveRequestService.findRequestById(id);
+        if (!authentication.getName().equals(leaveRequests.getUserRequested()) && authentication.getAuthorities().contains(new SimpleGrantedAuthority("PM, MANAGER"))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(leaveRequestService.denied(id));
     }
 }

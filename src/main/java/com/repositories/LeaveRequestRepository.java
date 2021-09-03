@@ -27,9 +27,9 @@ public interface LeaveRequestRepository extends JpaRepository<LeaveRequests, Int
 
     @Query("select lr from LeaveRequests lr where lr.duration <4")
     List<LeaveRequests> listPmApprove(long duration);
-
-
     LeaveRequests findRequestById(Integer id);
+
+
 
 }
 

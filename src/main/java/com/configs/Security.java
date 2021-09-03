@@ -120,11 +120,8 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers("/project/**", "/report/**")
                 .hasAnyAuthority("ADMIN", "MANAGER", "PM")
 
-                .antMatchers("/leaverequest/**", "/report/**")
-               .permitAll()
-                .antMatchers("/register/**", "/report/**")
+                .antMatchers("/request/**", "/report/**")
                 .permitAll()
-
                 .anyRequest().fullyAuthenticated()
                 .and().httpBasic();
 
