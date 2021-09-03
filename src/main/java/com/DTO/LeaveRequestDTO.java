@@ -29,9 +29,10 @@ public class LeaveRequestDTO {
         this.id = requests.getId();
         this.userRequested = requests.getUserRequested().getUsername();
         this.dateRequested = formatDate(requests.getDateRequested());
-
-        this.userApproved= requests.getUserApproved().getUsername();
-        this.dateApproved=  formatDate(requests.getDateApproved());
+if(requests.getUserApproved()!=null) {
+    this.userApproved = requests.getUserApproved().getUsername();
+    this.dateApproved = formatDate(requests.getDateApproved());
+}
         this.duration = requests.getDuration();
         this.unit = requests.getRequestType().getUnit().name();
         this.type = requests.getRequestType().getName();
