@@ -1,6 +1,7 @@
 package com.enums;
 
 public enum ACTIVE_STATUS {
+
     INACTIVE(0),
     ACTIVE(1);
 

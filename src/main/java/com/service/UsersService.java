@@ -1,21 +1,23 @@
 package com.service;
 
 import com.DTO.ChangePassRequest;
+import com.DTO.UserDTOE;
 import com.entity.CustomUserDetails;
 import com.entity.Users;
 import com.enums.STATUS_REGISTER;
 import com.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -30,16 +32,24 @@ public class UsersService implements UserDetailsService {
         return (Users) repository.findAll();
     }
 
+
     public List<Users> findAll() {
         return repository.findAll();
+    }
+    public List<UserDTOE> findAlls(){
+        return repository.findalls();
     }
 
     public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 
-    public Optional<Users> findById(Integer id) {
-        return repository.findById(id);
+    public Users findById(Integer id) {
+        return repository.findById(id).orElse(null);
+    }
+    public UserDTOE findUserById(Integer id){
+
+        return repository.findUserById(id);
     }
 
     public STATUS_REGISTER registerNewUser(Users users) {
@@ -101,5 +111,25 @@ public class UsersService implements UserDetailsService {
     public void changePass(ChangePassRequest request) {
         String key= aes.decrypt(request.getKey());
         repository.changePass(Integer.valueOf(key.substring(12,key.length())),new BCryptPasswordEncoder().encode(request.getPassword()));
+    }
+
+    public Page<UserDTOE> findAllDTO(int pageSize, int pageNumber) {
+        Pageable pageable= PageRequest.of(pageNumber,pageSize);
+        Page<UserDTOE> page= repository.findAllDTO(pageable);
+        return page;
+
+    }
+
+    public Users addUser(Users users) {
+        return repository.save(users);
+    }
+
+    public Users updateUser(Users users) {
+        return repository.saveAndFlush(users);
+    }
+
+    public List<UserDTOE> search(String seachByRole,int seachByName,long seachByStatus) {
+
+        return repository.seach(seachByRole,seachByName,seachByStatus);
     }
 }

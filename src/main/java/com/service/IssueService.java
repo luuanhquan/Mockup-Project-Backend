@@ -44,6 +44,7 @@ public class IssueService {
     public IssueDTO findById(Integer id) {
 
         IssueDTO issueDTO= issueRepository.findByIssueId(id).stream().findFirst().orElse(null);
+//
         if(!ObjectUtil.isEmpty(issueDTO)){
             issueDTO.setSubs(issueChangeLogRepository.findSubs(issueDTO.getId()));
             issueDTO.setFiles(fileIssueService.findByIssueId(issueDTO.getId()));
