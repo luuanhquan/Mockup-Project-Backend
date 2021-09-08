@@ -24,7 +24,8 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "u_seq")
+    @SequenceGenerator(name = "u_seq", sequenceName = "USERS_SEQ2", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "ROLE")
