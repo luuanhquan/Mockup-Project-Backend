@@ -115,7 +115,7 @@ public class Users {
 
     public Users loadFromDTO(UserDTO dto) throws ParseException {
 
-        this.password = dto.getPassword();
+//        this.password = dto.getPassword();
         this.email = dto.getEmail();
         this.phone = dto.getPhone();
         this.type = USER_TYPE.valueOf(dto.getType()).value;

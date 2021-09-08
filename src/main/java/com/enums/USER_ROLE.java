@@ -1,10 +1,10 @@
 package com.enums;
 
 public enum USER_ROLE {
-    ADMIN(0),
-    MANAGER(1),
-    PM(2),
-    MEMBER(3);
+    ADMIN(3),
+    MANAGER(2),
+    PM(1),
+    MEMBER(0);
 
     public final int value;
 

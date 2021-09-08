@@ -22,7 +22,7 @@ public class UserDTO {
     private String lastname;
     private String avatar;
     private Boolean gender;
-    private String password;
+//    private String password;
     private String type;
     private String birthday;
     private String phone;
@@ -41,7 +41,7 @@ public class UserDTO {
         this.middlename = users.getMiddlename();
         this.lastname = users.getLastname();
         this.avatar = users.getAvatar();
-        this.password= users.getPassword();
+//        this.password= users.getPassword();
         this.type = users.getType().name();
         this.birthday = formatDate(users.getBirthday());
         this.phone = users.getPhone();
@@ -57,7 +57,7 @@ public class UserDTO {
     }
 
     private String formatDate(Date date) {
-        return new SimpleDateFormat("dd/MM/yyyy").format(date);
+        return new SimpleDateFormat("yyyy/MM/dd").format(date);
     }
 
 }

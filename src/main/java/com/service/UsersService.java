@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -51,16 +54,21 @@ public class UsersService implements UserDetailsService {
         return users;
     }
 
+    public Users findOne(String email) {
+        return repository.findByEmail(email);
+    }
+
 
     public Boolean checkDuplicate(Users users) {
 
             // check existed user-----------------------------------------
             if (findByUsername(users.getUsername()) != null) {
-                return true;
+               return true;
+
             }
             // check existed mail-----------------------------------------
             if (findUserByEmail(users.getEmail()) != null) {
-                return true;
+               return  true;
             }
             return false;
     }
@@ -81,7 +89,7 @@ public class UsersService implements UserDetailsService {
     }
 
     public Users findUserByEmail(String email) {
-        return repository.findByEmail(email).orElse(null);
+        return repository.findByEmail(email);
     }
 
 ////////// Register
@@ -98,10 +106,14 @@ public class UsersService implements UserDetailsService {
 
 
     public Users update(UserDTO dto) throws ParseException {
-       Users updateUser =repository.getById(dto.getId());
+        Users updateUser =repository.getById(dto.getId());
         updateUser.loadFromDTO(dto);
         return repository.save(updateUser);
     }
+
+
+
+
     public Users getUserLogin() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails) {
@@ -109,7 +121,7 @@ public class UsersService implements UserDetailsService {
         } else {
             return findByUsername(principal.toString());
         }
-//        return login.getUser();
+
     }
 
 

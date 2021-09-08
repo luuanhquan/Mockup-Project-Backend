@@ -3,19 +3,16 @@ import lombok.Getter;
 
 @Getter
 public enum RESULT{
-//
-//    PARAM_ERROR(1, "Parameter Error!"),
-//    PRODUCT_NOT_EXIST(10, "Product does not exit!"),
-//    PRODUCT_NOT_ENOUGH(11, "Not enough products in stock!"),
-//    PRODUCT_STATUS_ERROR(12, "Status is incorrect!"),
-//    PRODUCT_OFF_SALE(13,"Product is off sale!"),
-//    PRODUCT_NOT_IN_CART(14,"Product is not in the cart!"),
-//    CART_CHECKOUT_SUCCESS(20, "Checkout successfully! "),
-//
+
+    USERNAME_NOT_EXIST(10, "Username is already taken!"),
+    EMAIL_NOT_EXIST(11, " Email is already in use!"),
+
     USERS_NOT_FOUND(30, "Users does not exit!"),
 
     REQUEST_NOT_FOUND(60, "Request is not exit!"),
-    REQUEST_STATUS_ERROR(61, "Request Status is not correct"),
+    USER_REQUEST_NOT_FOUND(61, "UserRequest is not exit!"),
+    REQUEST_STATUS_ERROR(62, "Request Status is not correct"),
+    REQUEST_NOT_USER(63, "Request User is not exit"),
 
 
     VALID_ERROR(50, "Wrong information"),

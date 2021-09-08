@@ -8,18 +8,13 @@ import org.springframework.stereotype.Repository;
 import com.DTO.UserDTO;
 
 
+import java.util.List;
 import java.util.Optional;
 
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 
-
-//    @Query("select u from Users u where u.email = :email")
-//    Optional<Users> findByEmail(@Param("email") String email);
-//
-//    @Query("SELECT new com.DTO.UserDTO(e.id,e.firstname,e.middlename,e.lastname,e.username,e.gender,e.birthday,e.personalid,e.phone,e.email,e.hometown,e.education,e.school,e.major,e.avatar,e.type,e.password) FROM Users e WHERE e.id = :id")
-//    public UserDTO getDetail(Integer id);
 
 
     @Query("select u from Users u where u.username = :username")
@@ -28,7 +23,8 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     @Query("select u from Users u where u.username=?1 and u.password=?2")
     Users findByUsernameAndPassword(String username, String password);
 
-    Optional<Users> findByEmail(String email);
+//    Optional<Users> findByEmail(String email);
+    Users findByEmail(String email);
 
 
 }

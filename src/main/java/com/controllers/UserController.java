@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,30 +44,18 @@ public class UserController {
 
 
     ////Get Profile
-    @GetMapping(value = "profile/{id}" ,  produces = "application/json")
+    @GetMapping(value = "/profile/{id}" ,  produces = "application/json")
     public ResponseEntity<UserDTO> getProfile(@PathVariable("id") Integer id)  {
         Users users = usersService.findById(id);
         return new ResponseEntity<>(new UserDTO().loadFromEntity(users), HttpStatus.OK);
 
     }
     //Update Profile
-    @PutMapping(value = "profile/update", produces = "application/json")
+    @PutMapping(value = "/profile/update", produces = "application/json")
 
     public ResponseEntity updateProfile(@RequestBody UserDTO dto) throws ParseException {
         Users users = usersService.update(dto);
         return new ResponseEntity<>("Successs", HttpStatus.OK);}
 
-
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUser(@PathVariable("id") Integer id, @RequestBody UserDTO dto) throws ParseException{
-        Users updateUser = usersService.findById(id);
-        updateUser.setUsername(usersService.getUserLogin().getUsername());
-        updateUser.loadFromDTO(dto);
-        usersService.save(updateUser);
-        return new ResponseEntity<>(updateUser, HttpStatus.OK);
-    }
-/*
-
- */
 
 }
