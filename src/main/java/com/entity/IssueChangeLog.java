@@ -17,7 +17,8 @@ import java.util.Optional;
 @Table(name = "ISSUE_CHANGE_LOG", schema = "TEAM1")
 public class IssueChangeLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "ISSUE_CHANGE_LOG_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "TITLE")

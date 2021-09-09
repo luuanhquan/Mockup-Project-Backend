@@ -14,7 +14,8 @@ import javax.persistence.*;
 @Table(name = "PROJECT_USER", schema = "TEAM1", catalog = "")
 public class ProjectUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "PROJECT_USER_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "ISPM")

@@ -15,7 +15,8 @@ import java.util.Collection;
 @Table(name = "REQUEST_TYPE", schema = "TEAM1", catalog = "")
 public class RequestType {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "REQUEST_TYPE_SEQ1", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "NAME")

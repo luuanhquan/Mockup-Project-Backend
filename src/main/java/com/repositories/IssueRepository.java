@@ -23,5 +23,9 @@ public interface IssueRepository extends JpaRepository<Issues, Integer> {
             "i.status," +
             "icl.id, icl.title) from Issues i join IssueChangeLog icl on i.id = icl.issue.id where i.id=?1")
     List<IssueDTO> findByIssueId(Integer id);
+
+    @Query(value = "insert into ISSUES (PROJECTID, USER_CREATED, ASSIGNEE, PARENT_ISSUE, STATUS) VALUES " +
+            "()",nativeQuery = true)
+    IssueDTO saveNew(IssueDTO issueDTO);
 }
 

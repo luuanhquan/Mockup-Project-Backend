@@ -14,7 +14,8 @@ import javax.persistence.*;
 @Table(name = "DIVISION_PROJECT", schema = "TEAM1", catalog = "")
 public class DivisionProject {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "DIVISION_PROJECT_SEQ1", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @ManyToOne

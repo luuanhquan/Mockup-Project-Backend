@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Issues {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "ISSUES_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "STATUS")

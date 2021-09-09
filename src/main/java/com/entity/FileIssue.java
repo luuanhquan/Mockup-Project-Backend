@@ -14,7 +14,8 @@ import javax.persistence.*;
 @Table(name = "FILE_ISSUE", schema = "TEAM1", catalog = "")
 public class FileIssue {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "FILE_ISSUE_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @ManyToOne

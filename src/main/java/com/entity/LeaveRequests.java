@@ -19,7 +19,8 @@ import java.util.Date;
 @Table(name = "LEAVE_REQUESTS", schema = "TEAM1")
 public class LeaveRequests {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "TABLE1_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Basic

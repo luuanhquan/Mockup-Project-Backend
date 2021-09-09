@@ -52,4 +52,8 @@ public class IssueService {
         }
         return issueDTO;
     }
+
+    public IssueDTO saveNew(IssueDTO issueDTO) {
+        return issueRepository.saveNew(issueDTO);
+    }
 }

@@ -29,4 +29,9 @@ public class IssueController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         else return new ResponseEntity(issueDTO,HttpStatus.OK);
     }
+
+    @PostMapping("/create")
+    public ResponseEntity createIssue(@RequestBody IssueDTO issueDTO){
+        return new ResponseEntity(issueService.saveNew(issueDTO),HttpStatus.CREATED);
+    }
 }

@@ -14,7 +14,8 @@ import javax.persistence.*;
 @Table(name = "FILE_PROJECT", schema = "TEAM1", catalog = "")
 public class FileProject {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "FILE_PROJECT_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "CATEGORY")

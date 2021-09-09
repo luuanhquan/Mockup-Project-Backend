@@ -21,7 +21,8 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Reports {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "REPORTS_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "ADVANTAGE")

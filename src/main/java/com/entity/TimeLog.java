@@ -15,7 +15,8 @@ import java.util.Date;
 @Table(name = "TIME_LOG", schema = "TEAM1", catalog = "")
 public class TimeLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "TIME_LOG_SEQ", allocationSize = 1)
     @Column(name = "ID")
     private Integer id;
     @Column(name = "DATE_LOG")
