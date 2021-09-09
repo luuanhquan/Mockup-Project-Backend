@@ -1,6 +1,9 @@
 package com.repositories;
 
+import com.DTO.UserDTOE;
 import com.entity.Users;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,6 +36,92 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     @Query("update Users u set u.password=?2 where u.id=?1")
     void changePass(int id, String password);
 
+    @Query("select  new com.DTO.UserDTOE(u.id," +
+            "u.role," +
+            "u.username," +
+            "u.gender," +
+            "u.type," +
+            "u.phone, " +
+            "u.email," +
+            "u.status," +
+            "u.password," +
+            "u.firstname," +
+            "u.middlename," +
+            "u.lastname," +
+            "u.personalid," +
+            "u.hometown," +
+            "u.education," +
+            "u.school," +
+            "u.major," +
+            "u.avatar," +
+            "u.dayOffLastYear, u.dateCreated, u.birthday) from Users u")
+    Page<UserDTOE> findAllDTO(Pageable pageable);
+
+    @Query("select  new com.DTO.UserDTOE(u.id," +
+            "u.role," +
+            "u.username," +
+            "u.gender," +
+            "u.type," +
+            "u.phone, " +
+            "u.email," +
+            "u.status," +
+            "u.password," +
+            "u.firstname," +
+            "u.middlename," +
+            "u.lastname," +
+            "u.personalid," +
+            "u.hometown," +
+            "u.education," +
+            "u.school," +
+            "u.major," +
+            "u.avatar," +
+            "u.dayOffLastYear, u.dateCreated, u.birthday) from Users u where u.id= ?1")
+    UserDTOE findUserById(Integer id);
+
+
+    @Query("select  new com.DTO.UserDTOE(u.id," +
+            "u.role," +
+            "u.username," +
+            "u.gender," +
+            "u.type," +
+            "u.phone, " +
+            "u.email," +
+            "u.status," +
+            "u.password," +
+            "u.firstname," +
+            "u.middlename," +
+            "u.lastname," +
+            "u.personalid," +
+            "u.hometown," +
+            "u.education," +
+            "u.school," +
+            "u.major," +
+            "u.avatar," +
+            "u.dayOffLastYear, u.dateCreated, u.birthday) from Users u where u.username=?1 or u.role=?2 or u.status=?3")
+    List<UserDTOE> seach(String seachByRole,int seachByName,long seachByStatus);
+
+
+
+    @Query("select  new com.DTO.UserDTOE(u.id," +
+            "u.role," +
+            "u.username," +
+            "u.gender," +
+            "u.type," +
+            "u.phone, " +
+            "u.email," +
+            "u.status," +
+            "u.password," +
+            "u.firstname," +
+            "u.middlename," +
+            "u.lastname," +
+            "u.personalid," +
+            "u.hometown," +
+            "u.education," +
+            "u.school," +
+            "u.major," +
+            "u.avatar," +
+            "u.dayOffLastYear, u.dateCreated, u.birthday) from Users u")
+    List<UserDTOE> findalls();
 //    @Query("from Users u where u.username = ?1")
 //    Users findByUsername(String username);
 

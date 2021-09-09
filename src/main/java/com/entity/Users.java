@@ -1,11 +1,13 @@
 package com.entity;
 
+import com.DTO.UserDTOE;
 import com.dto.UserDTO;
 import com.enums.ACTIVE_STATUS;
 import com.enums.USER_ROLE;
 import com.enums.USER_TYPE;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.text.ParseException;
@@ -127,6 +129,32 @@ public class Users {
         this.education = dto.getEducation();
         this.school = dto.getSchool();
         this.major = dto.getMajor();
+        return this;
+    }
+
+    public Users loadFromDTOE(UserDTOE dto) throws ParseException {
+        this.id=dto.getId();
+        this.role=USER_ROLE.valueOf(dto.getRole()).value;
+        this.username = dto.getUsername();
+        this.gender=dto.isGender();
+        this.type = USER_TYPE.valueOf(dto.getType()).value;
+        this.phone = dto.getPhone();
+        this.email = dto.getEmail();
+        this.status=ACTIVE_STATUS.valueOf(dto.getStatus()).value;
+        this.password = dto.getPassword();
+        this.firstname = dto.getFirstName();
+        this.middlename = dto.getMiddleName();
+        this.lastname = dto.getLastname();
+        this.personalid = dto.getPersonalid();
+        this.hometown = dto.getHometown();
+
+        this.education = dto.getEducation();
+        this.school = dto.getSchool();
+        this.major = dto.getMajor();
+        this.avatar = dto.getAvatar();
+        this.dayOffLastYear=dto.getDayOffLastYear();
+        this.dateCreated=getDate(dto.getDateCreated());
+        this.birthday=getDate(dto.getBirthday());
         return this;
     }
 
