@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Projects, Integer> {
 
-    @Query ("from Projects p where p.status=1")
+    @Query("from Projects p where p.status=1")
     List<Projects> findAllActive();
 }
+
+
 

@@ -30,9 +30,4 @@ public class RegisterUser {
     private String phone;
 
 
-    @NotBlank
-    @Size(min = 10, max = 52)
-    private String division_name;
-
-
 }

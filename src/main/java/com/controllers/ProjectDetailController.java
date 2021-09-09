@@ -3,8 +3,10 @@ package com.controllers;
 import com.DTO.ProjectCreateDTO;
 import com.DTO.ProjectDetailDTO;
 import com.entity.Projects;
+import com.entity.Users;
 import com.enums.ACTIVE_STATUS;
 import com.service.ProjectService;
+import com.service.UsersService;
 import com.utils.ObjectUtil;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
 public class ProjectDetailController {
     @Autowired
     public final ProjectService projectService;
+    @Autowired
+    UsersService usersService;
 
     public ProjectDetailController(ProjectService projectService) {
         this.projectService = projectService;
@@ -33,8 +37,7 @@ public class ProjectDetailController {
     @GetMapping("/list")
     public List<ProjectDetailDTO> getAllProject() {
         List<Projects> projects = projectService.findAllActive();
-        List<ProjectDetailDTO> list = projects.stream()
-                .map(projectItem -> new ProjectDetailDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
+        List<ProjectDetailDTO> list = projects.stream().map(projectItem -> new ProjectDetailDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
         return list;
     }
 
@@ -52,7 +55,7 @@ public class ProjectDetailController {
     public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
         if (ObjectUtil.isEmpty(projectsDTO))
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        Projects project = new Projects().loadFromDTO(projectsDTO);
+        Projects project = new Projects().loadFromDTOCreate(projectsDTO);
         projectService.addProject(project);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }

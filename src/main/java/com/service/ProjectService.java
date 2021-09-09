@@ -1,6 +1,7 @@
 package com.service;
 
 import com.entity.Projects;
+import com.entity.Users;
 import com.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,4 +52,12 @@ public class ProjectService {
     public void remove(Projects product) {
         projectRepository.delete(product);
     }
+
+//    public List<Projects> findProject(Users loginUser) {
+//        switch(loginUser.getRole().name()){
+//            case "ADMIN":
+//                case ""
+//        }
+//        return null;
+//    }
 }
