@@ -28,4 +28,7 @@ public class DivisionUser {
     @JsonIgnore
     @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
     private Users users;
+
+
+
 }

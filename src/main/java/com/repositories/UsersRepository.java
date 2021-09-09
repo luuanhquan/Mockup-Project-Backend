@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -20,7 +21,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
 
     @Query("select u from Users u where u.email = :email")
-    List<Users> findByEmail(@Param("email") String email);
+    Optional<Users> findByEmail(@Param("email") String email);
 
 
     @Query("select u from Users u where u.username = :username")
