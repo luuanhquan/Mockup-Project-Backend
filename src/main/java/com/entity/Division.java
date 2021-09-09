@@ -26,16 +26,16 @@ public class Division {
     private String description;
     @Column(name = "STATUS")
     private long status;
-    @OneToMany(mappedBy = "division")
-    private Collection<DivisionProject> divisionProjectsList;
-
     public ACTIVE_STATUS getStatus() {
         return ACTIVE_STATUS.valueOf((int) status);
     }
-
     public void setStatus(ACTIVE_STATUS status) {
         this.status = status.value;
     }
+    @OneToMany(mappedBy = "division")
+    private Collection<DivisionProject> divisionProjectsList;
+
+
 
 
 }
