@@ -1,6 +1,7 @@
 package com.entity;
 
 import com.enums.ACTIVE_STATUS;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,14 +26,13 @@ public class Division {
     private String description;
     @Column(name = "STATUS")
     private long status;
-    public ACTIVE_STATUS getStatus() {
-        return ACTIVE_STATUS.valueOf((int) status);
-    }
-    public void setStatus(ACTIVE_STATUS status) {
-        this.status = status.value;
-    }
+
     @OneToMany(mappedBy = "division")
     private Collection<DivisionProject> divisionProjectsList;
+
+
+
+
 
 
 

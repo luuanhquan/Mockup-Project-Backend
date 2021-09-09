@@ -2,9 +2,9 @@ package com.service;
 
 import com.entity.IssueChangeLog;
 import com.repositories.IssueChangeLogRepository;
-import com.sun.xml.internal.stream.Entity;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

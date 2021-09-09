@@ -28,9 +28,13 @@ public class LeaveRequestDTO {
     public LeaveRequestDTO loadFromEntity(LeaveRequests requests) {
         this.id = requests.getId();
         this.userRequested = requests.getUserRequested().getUsername();
-        this.userApproved = requests.getUserApproved().getUsername();
         this.dateRequested = formatDate(requests.getDateRequested());
-        this.dateApproved = formatDate(requests.getDateApproved());
+        if(requests.getDateApproved()!=null
+        ) {
+            boolean b = requests.getDateApproved() != null;
+        }
+            this.userApproved= requests.getUserApproved().getUsername();
+            this.dateApproved = formatDate(requests.getDateApproved());
         this.duration = requests.getDuration();
         this.unit = requests.getRequestType().getUnit().name();
         this.type = requests.getRequestType().getName();

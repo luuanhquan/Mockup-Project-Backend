@@ -1,8 +1,10 @@
 package com.service;
 
+import com.DTO.UserDTO;
+import com.DTO.RegisterUser;
 import com.entity.CustomUserDetails;
 import com.entity.Users;
-import com.enums.STATUS_REGISTER;
+
 import com.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -26,8 +27,10 @@ public class UsersService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
+
     public Users save(Users s) {
-        return (Users) repository.findAll();
+        return repository.save(s);
     }
 
     public List<Users> findAll() {
@@ -42,31 +45,31 @@ public class UsersService implements UserDetailsService {
         return repository.findById(id);
     }
 
-    public STATUS_REGISTER registerNewUser(Users users) {
-        try {
+
+    public Boolean checkDuplicate(Users users) {
+
             // check existed user-----------------------------------------
             if (findByUsername(users.getUsername()) != null) {
-                return STATUS_REGISTER.Existed_Username;
+                return true;
             }
             // check existed mail-----------------------------------------
             if (findUserByEmail(users.getEmail()) != null) {
-                return STATUS_REGISTER.Existed_Email;
+                return true;
             }
 
-            // save user--------------------------------------------
-            repository.save(users);
 
-            return STATUS_REGISTER.Success;
-        } catch (Exception ex) {
-            return STATUS_REGISTER.Error_OnSystem;
-        }
+            return false;
+
     }
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
         // Kiểm tra xem user có tồn tại trong database không?
+
+
         Users user = repository.findByUsername(username);
         System.out.println(user);
+
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -75,21 +78,44 @@ public class UsersService implements UserDetailsService {
     }
 
     public Users findByUsername(String username) {
+
         return repository.findByUsername(username);
+
     }
 
-    public Users registerNewUserAccount(Users account) {
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        return repository.save(account);
-    }
 
     public Users findUserByEmail(String email) {
-        return StreamSupport.stream(repository.findByEmail(email).spliterator(), false).findFirst().orElse(null);
+        return repository.findByEmail(email).orElse(null);
     }
 
     public Users getUserLogin() {
         CustomUserDetails login = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return login.getUser();
     }
+////////// Register
+    public Users register(RegisterUser registerUser) {
+        Users user = new Users();
+        user.setUsername(registerUser.getUsername());
+        user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
+        user.setEmail(registerUser.getEmail());
+        user.setPhone(registerUser.getPhone());
+//        user.setDivisionUser(user.getDivisionUser());
+
+        return repository.save(user);
+    }
+
+
+
+////////Put Profile
+    public Users update(UserDTO dto) {
+        Users users =getUserLogin();
+        users.setPassword(passwordEncoder.encode(dto.getPassword()));
+        dto.loadFromEntity(users);
+        return repository.save(users);
+    }
+
+
+
+
 
 }

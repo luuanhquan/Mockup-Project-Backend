@@ -1,9 +1,10 @@
 package com.entity;
 
-import com.dto.UserDTO;
+import com.DTO.UserDTO;
 import com.enums.ACTIVE_STATUS;
 import com.enums.USER_ROLE;
 import com.enums.USER_TYPE;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -83,6 +84,13 @@ public class Users {
     private Collection<Reports> reportsList;
     @OneToMany(mappedBy = "users")
     private Collection<TimeLog> timeLogsList;
+//
+//    @ManyToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)
+//    private DivisionUser divisionUser;
+
+
 
     public USER_ROLE getRole() {
         return USER_ROLE.valueOf(role);
@@ -108,30 +116,35 @@ public class Users {
         this.status = status.value;
     }
 
-    public Users loadFromDTO(UserDTO dto) throws ParseException {
-
-        this.username = dto.getUsername();
-        this.password = dto.getPassword();
-        this.email = dto.getEmail();
-        this.phone = dto.getPhone();
-        this.type = USER_TYPE.valueOf(dto.getType()).value;
-        this.avatar = dto.getAvatar();
-        this.hometown = dto.getHometown();
-        this.personalid = dto.getPersonalid();
-        this.firstname = dto.getFirstname();
-        this.middlename = dto.getMiddlename();
-        this.lastname = dto.getLastname();
+//
+//    public Users loadFromDTO(UserDTO dto) throws ParseException {
+//
+//
+//        this.password = dto.getPassword();
+//        this.email = dto.getEmail();
+//        this.phone = dto.getPhone();
+//        this.type = USER_TYPE.valueOf(dto.getType()).value;
+//        this.avatar = dto.getAvatar();
+//        this.hometown = dto.getHometown();
+//        this.personalid = dto.getPersonalid();
+//        this.firstname = dto.getFirstname();
+//        this.middlename = dto.getMiddlename();
+//        this.lastname = dto.getLastname();
 //        this.gender=dto.getGender();
-        this.birthday = this.getDate(dto.getBirthday());
-        this.education = dto.getEducation();
-        this.school = dto.getSchool();
-        this.major = dto.getMajor();
-        return this;
-    }
+//        this.birthday = this.getDate(dto.getBirthday());
+//        this.education = dto.getEducation();
+//        this.school = dto.getSchool();
+//        this.major = dto.getMajor();
+//
+//        return this;
+//    }
+//    private  Date getDate2(String date2) throws  ParseException{
+//        return  new SimpleDateFormat("yyyy-MM-dd").parse(date2);
+//    }
+//
+//    private Date getDate(String date) throws ParseException {
+//        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+//    }
 
-
-    private Date getDate(String date) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
-    }
 
 }

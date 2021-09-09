@@ -60,14 +60,18 @@ public class LeaveRequests {
     }
 
     public LeaveRequests loadFromDTO(LeaveRequestDTO dto) throws ParseException {
-        this.dateRequested = this.getDate(dto.getDateRequested());
+        this.dateRequested = this.getDate2(dto.getDateRequested());
         this.duration = dto.getDuration();
         return this;
     }
 
 
-    private Date getDate(String date) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+//    private Date getDate(String date) throws ParseException {
+//        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+//    }
+
+    private Date getDate2(String date2) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd").parse(date2);
     }
 
 
