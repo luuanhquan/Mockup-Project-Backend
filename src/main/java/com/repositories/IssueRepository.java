@@ -1,6 +1,7 @@
 package com.repositories;
 
 import com.DTO.IssueDTO;
+import com.DTO.IssueSummaryDTO;
 import com.entity.Issues;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,11 +22,12 @@ public interface IssueRepository extends JpaRepository<Issues, Integer> {
             "i.userCreated.username ," +
             "i.assignee.username ," +
             "i.status," +
-            "icl.id, icl.title) from Issues i join IssueChangeLog icl on i.id = icl.issue.id where i.id=?1")
+            "i.parent.id, icl.title) from Issues i join IssueChangeLog icl on i.id = icl.issue.id where i.id=?1")
     List<IssueDTO> findByIssueId(Integer id);
 
-    @Query(value = "insert into ISSUES (PROJECTID, USER_CREATED, ASSIGNEE, PARENT_ISSUE, STATUS) VALUES " +
-            "()",nativeQuery = true)
-    IssueDTO saveNew(IssueDTO issueDTO);
+
+
+    @Query("select new com.DTO.IssueSummaryDTO(i.id, i.assignee.username, i.userCreated.username) from Issues i where i.project.id=?1")
+    List<IssueSummaryDTO> findByProject(Integer id);
 }
 

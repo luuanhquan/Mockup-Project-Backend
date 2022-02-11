@@ -20,13 +20,14 @@ import javax.mail.internet.MimeMessage;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 @Transactional
 public class EmailService {
-    public static String host= "http://localhost:4200/#/forgot-password/";
+    public static String host= "http://localhost:4200/#/forgot/";
     public static String FORGOT_SUBJECT = "RECOVERY EMAIL";
     public static String dateFormat = "ddMMyyyyHHmm";
     private static int timeExprired = 1*60*60;
@@ -75,6 +76,7 @@ public class EmailService {
     }
 
     public void forgotPass(String email) {
+        System.out.println(email);
         Users user= usersService.findUserByEmail(email);
         if(ObjectUtil.isEmpty(user)) return;
         String key= generateSecretKey(user.getId());
@@ -98,5 +100,15 @@ public class EmailService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void sendBirthdayEmail(List<String> emailList) {
+        emailList.stream().forEach(item ->{
+            try{
+                sendEmail(item, "HAPPY BIRTHDAY","<h1>HAPPY BIRTHDAY TO YOU</h1>\n" );
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 }

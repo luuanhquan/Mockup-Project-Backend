@@ -1,6 +1,8 @@
 package com.repositories;
 
+import com.DTO.PM;
 import com.DTO.UserDTOE;
+import com.DTO.UserSimpleDTO;
 import com.entity.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +32,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
     @Query("select u from Users u where u.username=?1 and u.password=?2")
     Users findByUsernameAndPassword(String username, String password);
 
-    @Query("select u from Users u where u.email= :email")
+    @Query("select u from Users u where u.email= :email and u.status=1")
     Users findUserByEmail(@Param("email") String email);
 
     @Modifying
@@ -123,7 +125,22 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
             "u.avatar," +
             "u.dayOffLastYear, u.dateCreated, u.birthday) from Users u")
     List<UserDTOE> findalls();
+
+    @Query("select new com.DTO.PM(u.id,u.username, u.lastname) from Users u join DivisionUser du on du.users.id=u.id where du.division.id=?1 and u.role=2")
+    List<PM> getPMByDivision(int id);
+
+    @Query("select new com.DTO.UserSimpleDTO(u.id, u.username, u.email, u.phone, u.role) from Users u join ProjectUser pu on u.id=pu.users.id where pu.project.id=?1")
+    List<UserSimpleDTO> findByProject(Integer id);
 //    @Query("from Users u where u.username = ?1")
 //    Users findByUsername(String username);
 
+
+    @Query("select new com.DTO.UserSimpleDTO(u.id, u.username, u.email, u.phone, u.role) from Users u where u.status=1 and u.id not in (select u2.id from Users u2 join ProjectUser pu on pu.users.id=u2.id where pu.project.id = ?1) order by u.id")
+    List<UserSimpleDTO> findUserToAdd(Integer id);
+
+    @Query("select  new com.DTO.PM(u.id, u.username, u.lastname) from Users u join ProjectUser pu on u.id = pu.users.id where pu.project.id=?1 and pu.ispm = true ")
+    PM findPM(Integer id);
+
+    @Query(value = "select u.email from Users u where u.status=1 and FUNCTION('month',u.birthday) = function('month',current_date ) AND FUNCTION('day',u.birthday) = function('day',current_date )")
+    List<String> findBirthday();
 }

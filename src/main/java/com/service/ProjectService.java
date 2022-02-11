@@ -1,7 +1,12 @@
 package com.service;
 
+import com.DTO.ProjectDetailDTO;
+import com.DTO.UserSimpleDTO;
+import com.entity.ProjectUser;
 import com.entity.Projects;
 import com.repositories.ProjectRepository;
+import com.repositories.ProjectUserRepository;
+import com.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +18,26 @@ public class ProjectService {
 
     @Autowired
     ProjectRepository projectRepository;
+    @Autowired
+    IssueService issueService;
+    @Autowired
+    UsersRepository usersRepository;
+    @Autowired
+    ProjectUserRepository projectUserRepository;
 
 
     public List<Projects> findAll() {
         return projectRepository.findAll();
     }
 
-    public List<Projects> findAllActive(){
-        return  projectRepository.findAllActive();
+    public List<ProjectDetailDTO> findAllActive(){
+        List<ProjectDetailDTO> projectDetailDTOList= projectRepository.findAllActive();
+        projectDetailDTOList.stream().forEach(projectDetailDTO -> {
+            projectDetailDTO.setListIssues(issueService.findByProject(projectDetailDTO.getId()));
+            projectDetailDTO.setListMember(usersRepository.findByProject(projectDetailDTO.getId()));
+            projectDetailDTO.setPM(usersRepository.findPM(projectDetailDTO.getId()));
+        });
+        return  projectDetailDTOList;
     }
 
 
@@ -51,4 +68,5 @@ public class ProjectService {
     public void remove(Projects product) {
         projectRepository.delete(product);
     }
+
 }

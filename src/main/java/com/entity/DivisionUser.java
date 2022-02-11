@@ -23,7 +23,7 @@ public class DivisionUser {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "DivisionID", referencedColumnName = "ID", nullable = false)
-    private Division Division;
+    private Division division;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "USERID", referencedColumnName = "ID", nullable = false)

@@ -2,6 +2,7 @@ package com.entity;
 
 import com.DTO.ProjectCreateDTO;
 import com.DTO.ProjectDetailDTO;
+import com.DTO.ProjectUpdateDTO;
 import com.enums.ACTIVE_STATUS;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -57,14 +58,14 @@ public class Projects {
         this.status = status.value;
     }
 
-    public Projects loadFromDTODetail(ProjectDetailDTO dto) throws ParseException {
-        this.name = dto.getName();
-        this.description = dto.getDescription();
-        this.dateStated = this.getDate(dto.getDateStated());
-        this.dateEnded = this.getDate(dto.getDateEnded());
-        this.status = ACTIVE_STATUS.valueOf(dto.getStatus()).value;
-        return this;
-    }
+//    public Projects loadFromDTODetail(ProjectDetailDTO dto) throws ParseException {
+//        this.name = dto.getName();
+//        this.description = dto.getDescription();
+//        this.dateStated = this.getDate(dto.getDateStated());
+//        this.dateEnded = this.getDate(dto.getDateEnded());
+//        this.status = ACTIVE_STATUS.valueOf(dto.getStatus()).value;
+//        return this;
+//    }
 
     public Projects loadFromDTOCreate(ProjectCreateDTO dto) throws ParseException {
         this.name = dto.getName();
@@ -74,8 +75,17 @@ public class Projects {
         return this;
     }
 
+    public Projects loadFromDTOUpdate(ProjectUpdateDTO dto) throws ParseException {
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.dateStated = dto.getDate_start();
+        this.dateEnded = dto.getDate_end();
+        return this;
+    }
     private Date getDate(String date) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(date);
 
     }
+
+
 }

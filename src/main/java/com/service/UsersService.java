@@ -1,9 +1,6 @@
 package com.service;
 
-import com.DTO.ChangePassRequest;
-import com.DTO.UserDTOE;
-import com.DTO.UserDTO;
-import com.DTO.RegisterUser;
+import com.DTO.*;
 import com.entity.CustomUserDetails;
 import com.entity.Users;
 
@@ -16,9 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.StreamSupport;
 import java.util.Optional;
@@ -56,6 +56,7 @@ public class UsersService implements UserDetailsService {
 
         return repository.findUserById(id);
     }
+
 
 
     public Boolean checkDuplicate(Users users) {
@@ -110,6 +111,7 @@ public class UsersService implements UserDetailsService {
     public void changePass(ChangePassRequest request) {
         String key= aes.decrypt(request.getKey());
         repository.changePass(Integer.valueOf(key.substring(12,key.length())),new BCryptPasswordEncoder().encode(request.getPassword()));
+
     }
 
     public Page<UserDTOE> findAllDTO(int pageSize, int pageNumber) {
@@ -126,11 +128,11 @@ public class UsersService implements UserDetailsService {
     public Users updateUser(Users users) {
         return repository.saveAndFlush(users);
     }
-////////// Register
+
     public Users register(RegisterUser registerUser) {
         Users user = new Users();
         user.setUsername(registerUser.getUsername());
-        user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(registerUser.getPassword()));
         user.setEmail(registerUser.getEmail());
         user.setPhone(registerUser.getPhone());
 //        user.setDivisionUser(user.getDivisionUser());
@@ -138,12 +140,16 @@ public class UsersService implements UserDetailsService {
         return repository.save(user);
     }
 
+    public List<PM> getPMByDivision(int id){
+        System.out.println(repository.getPMByDivision(id));
+        return repository.getPMByDivision(id);
+    }
 
 
 ////////Put Profile
     public Users update(UserDTO dto) {
         Users users =getUserLogin();
-        users.setPassword(passwordEncoder.encode(dto.getPassword()));
+        users.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
         dto.loadFromEntity(users);
         return repository.save(users);
     }
@@ -155,5 +161,18 @@ public class UsersService implements UserDetailsService {
     public List<UserDTOE> search(String seachByRole,int seachByName,long seachByStatus) {
 
         return repository.seach(seachByRole,seachByName,seachByStatus);
+    }
+
+    public List<UserSimpleDTO> findByProject(Integer id) {
+        return repository.findByProject(id);
+    }
+
+
+    public List<UserSimpleDTO> findUserToAdd(int id) {
+        return repository.findUserToAdd(id);
+    }
+
+    public List<String> findBirthday() {
+        return repository.findBirthday();
     }
 }

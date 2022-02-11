@@ -2,6 +2,8 @@ package com.controllers;
 
 import com.DTO.ProjectCreateDTO;
 import com.DTO.ProjectDetailDTO;
+import com.DTO.ProjectSimpleDTO;
+import com.DTO.UserSimpleDTO;
 import com.entity.Projects;
 import com.enums.ACTIVE_STATUS;
 import com.service.ProjectService;
@@ -23,21 +25,34 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/project")
-public class ProjectDetailController {
+public class ProjectController {
     @Autowired
     public final ProjectService projectService;
 
-    public ProjectDetailController(ProjectService projectService) {
+    @Autowired
+    UsersService usersService;
+
+
+    public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
 
     // tìm all Project
     @GetMapping("/list")
     public List<ProjectDetailDTO> getAllProject() {
-        List<Projects> projects = projectService.findAllActive();
-        List<ProjectDetailDTO> list = projects.stream()
-                .map(projectItem -> new ProjectDetailDTO().loadFromEntity(projectItem)).collect(Collectors.toList());
-        return list;
+        List<ProjectDetailDTO> projects = projectService.findAllActive();
+        return projects;
+    }
+
+
+    @GetMapping(path = "/all")
+    public List<ProjectSimpleDTO> basicauth() {
+        return projectService.findAll().stream().map(item -> new ProjectSimpleDTO(item)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/find-user/{id}")
+    public List<UserSimpleDTO> findUserToAdd(@PathVariable("id") int id){
+        return usersService.findUserToAdd(id);
     }
 
     // Tìm Project theo id
@@ -54,23 +69,13 @@ public class ProjectDetailController {
     public ResponseEntity addProject(@RequestBody ProjectCreateDTO projectsDTO) throws ParseException {
         if (ObjectUtil.isEmpty(projectsDTO))
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        Projects project = new Projects().loadFromDTO(projectsDTO);
+        Projects project = new Projects().loadFromDTOCreate(projectsDTO);
         projectService.addProject(project);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    // update project
-    // @PutMapping(value = "/update/{id}", produces = "application/json")
-    // public ResponseEntity ReadProject(@RequestBody ProjectDetailDTO
-    // projectDetailDTO, @PathVariable("id") int id) throws ParseException {
-    // Projects project = projectService.findbyProjects(id);
-    // if (ObjectUtil.isEmpty(project)) return new
-    // ResponseEntity(HttpStatus.NOT_FOUND);
-    // projectService.updateProject(project.loadFromDTODetail(projectDetailDTO));
-    // return new ResponseEntity(null, HttpStatus.OK);
-    // }
 
-    @PutMapping(value = "/update/{id}", produces = "application/json")
+    @PutMapping(value = "/update", produces = "application/json")
     public ResponseEntity ReadProject(@RequestBody ProjectCreateDTO projectUpdateDTO, @PathVariable("id") int id)
             throws ParseException {
         Projects project = projectService.findbyProjects(id);

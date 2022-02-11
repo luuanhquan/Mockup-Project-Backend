@@ -3,6 +3,7 @@ package com.DTO;
 import com.entity.IssueChangeLog;
 import com.entity.Issues;
 import com.enums.ISSUE_STATUS;
+import com.utils.ObjectUtil;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -23,11 +24,12 @@ public class IssueDTO {
     List<SimpleIssue> subs = new ArrayList<>();
     IssueModelData modelData;
 
-    public IssueDTO(int id, String creator, String assignee, Long status,int p_id, String title) {
+    public IssueDTO(Integer id, String creator, String assignee, Long status,Integer p_id, String title) {
         this.id = id;
         this.creator = creator;
         this.assignee = assignee;
         this.status = ISSUE_STATUS.valueOf(status.intValue()).name();
+        if(!ObjectUtil.isEmpty(p_id))
         this.parent= new SimpleIssue(p_id, title);
     }
 

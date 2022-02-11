@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.DTO.IssueCreate;
 import com.DTO.IssueDTO;
 import com.entity.IssueChangeLog;
 import com.entity.Issues;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @RestController
@@ -31,7 +34,8 @@ public class IssueController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity createIssue(@RequestBody IssueDTO issueDTO){
-        return new ResponseEntity(issueService.saveNew(issueDTO),HttpStatus.CREATED);
+    public ResponseEntity createIssue(@RequestBody IssueCreate issueDTO){
+        issueService.saveNew(issueDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

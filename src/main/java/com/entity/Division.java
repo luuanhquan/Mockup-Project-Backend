@@ -29,7 +29,8 @@ public class Division {
     private long status;
     @OneToMany(mappedBy = "division")
     private Collection<DivisionProject> divisionProjectsList;
-
+    @OneToMany(mappedBy = "division")
+    private Collection<DivisionUser> divisionUsers;
 
 
 

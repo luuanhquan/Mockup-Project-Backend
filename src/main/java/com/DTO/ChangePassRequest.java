@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Getter
@@ -18,7 +19,7 @@ public class ChangePassRequest implements Serializable {
     private String key;
     private String password;
     public String getPassword(){
-        return new String(Base64.getDecoder().decode(password));
+        return new String(Base64.getDecoder().decode(password.getBytes(StandardCharsets.UTF_8)));
     }
 }
 

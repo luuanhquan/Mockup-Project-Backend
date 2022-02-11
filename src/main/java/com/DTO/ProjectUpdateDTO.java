@@ -1,11 +1,13 @@
 package com.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class ProjectCreateDTO {
+@AllArgsConstructor
+public class ProjectUpdateDTO {
     int id;
     String name;
     String description;

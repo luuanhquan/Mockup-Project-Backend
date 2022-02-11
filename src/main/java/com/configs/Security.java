@@ -57,10 +57,10 @@ public class Security extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/auth", "/", "/home", "/forgot-password/**")
+                .antMatchers("/auth", "/", "/home", "/forgot-password/**","/forgot-password/")
                 .permitAll()
 
-                .antMatchers("/user/**", "/report/**")
+                .antMatchers("/user/**", "/report/**","/issue/delete/**")
                 .hasAnyAuthority("ADMIN", "MANAGER")
 
                 .antMatchers("/project/**", "/report/**")

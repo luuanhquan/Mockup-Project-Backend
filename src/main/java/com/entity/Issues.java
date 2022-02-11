@@ -1,5 +1,7 @@
 package com.entity;
 
+import com.DTO.IssueDTO;
+import com.enums.ACTIVE_STATUS;
 import com.enums.ISSUE_STATUS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -70,5 +72,6 @@ public class Issues {
     public String toString(){
         return this.id.toString();
     }
+
 
 }

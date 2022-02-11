@@ -24,7 +24,6 @@ public class LoginController {
     @Autowired
     private UsersService usersService;
 
-
     @PostMapping(path = "/auth", produces = "application/json")
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JwtRequest jwtRequest) {
         JwtResponse response = authenticationService.authenticate(jwtRequest);

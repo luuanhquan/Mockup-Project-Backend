@@ -1,7 +1,7 @@
 package com.entity;
 
+import com.DTO.UserDTO;
 import com.DTO.UserDTOE;
-import com.dto.UserDTO;
 import com.enums.ACTIVE_STATUS;
 import com.enums.USER_ROLE;
 import com.enums.USER_TYPE;
@@ -166,7 +166,9 @@ public class Users {
         this.birthday=getDate(dto.getBirthday());
         return this;
     }
-
+    private Date getDate(String date) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+    }
 
 
 }
